@@ -23,7 +23,7 @@ public class ResourceGroup {
     //-----------  Constructors  -----------
     //---------------------------------------
 
-    ResourceGroup() {
+    public ResourceGroup() {
         this.defX = 0;
         this.defY = 0;
         this.grCtX = 0;
@@ -36,7 +36,7 @@ public class ResourceGroup {
         this.resCount = 0;
     }
 
-    ResourceGroup(double defX, double defY, int grCtX, int grCtY, int density) {
+    public ResourceGroup(double defX, double defY, int grCtX, int grCtY, int density) {
         this.defX = defX;
         this.defY = defY;
         this.grCtX = grCtX;
