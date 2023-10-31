@@ -1,6 +1,7 @@
 package resource;
 
 import point.Point2D;
+import area.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -245,14 +246,14 @@ public class ResourceGroup {
     public void render()
     {
         this.resNodes.forEach(ResourceNode::render);
-        App.processingRef.stroke(cl.getRGB(), 100);
-        App.processingRef.strokeWeight(2);
+        app.processingRef.stroke(cl.getRGB(), 100);
+        app.processingRef.strokeWeight(2);
         for(int i = 0; i < this.grCtX + 1; i++){
-            App.processingRef.line(configuration.Render.ORIGINX + (float)(i * this.sideX), configuration.Render.ORIGINY,
+            app.processingRef.line(configuration.Render.ORIGINX + (float)(i * this.sideX), configuration.Render.ORIGINY,
                     configuration.Render.ORIGINX + (float)(i * this.sideX), configuration.Render.ORIGINY + (float)(this.defY));
         }
         for(int j = 0; j < this.grCtY + 1; j++){
-            App.processingRef.line(configuration.Render.ORIGINX, configuration.Render.ORIGINY + (float)(j * this.sideY),
+            app.processingRef.line(configuration.Render.ORIGINX, configuration.Render.ORIGINY + (float)(j * this.sideY),
                     configuration.Render.ORIGINX + (float)(this.defX), configuration.Render.ORIGINY + (float)(j * this.sideY));
         }
     }

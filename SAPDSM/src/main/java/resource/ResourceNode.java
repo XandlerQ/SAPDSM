@@ -1,6 +1,5 @@
 package resource;
 
-import point.Point;
 import point.Point2D;
 
 import java.awt.*;
@@ -110,11 +109,11 @@ public class ResourceNode extends Resource {
 
     void render(){
         recalculateSize();
-        App.processingRef.noStroke();
-        App.processingRef.fill(cl.getRGB(), 255);
-        App.processingRef.circle(configuration.Render.ORIGINX + (float)this.coordinates.getX(), configuration.Render.ORIGINY + (float)this.coordinates.getY(), 2);
-        App.processingRef.fill(cl.getRGB(), 150);
-        App.processingRef.circle(configuration.Render.ORIGINX + (float)this.coordinates.getX(), configuration.Render.ORIGINY + (float)this.coordinates.getY(), (float)size);
+        app.processingRef.noStroke();
+        app.processingRef.fill(cl.getRGB(), 255);
+        app.processingRef.circle(configuration.Render.ORIGINX + (float)this.coordinates.getX(), configuration.Render.ORIGINY + (float)this.coordinates.getY(), 2);
+        app.processingRef.fill(cl.getRGB(), 150);
+        app.processingRef.circle(configuration.Render.ORIGINX + (float)this.coordinates.getX(), configuration.Render.ORIGINY + (float)this.coordinates.getY(), (float)size);
     }
 
     //-----------------------------------

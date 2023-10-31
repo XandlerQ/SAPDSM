@@ -40,13 +40,13 @@ public class Resource {
     //-----------  Getters  -----------
     //---------------------------------
 
-    double getResource() { return this.resource; }
+    public double getResource() { return this.resource; }
 
     public double getMaxResource() {
         return maxResource;
     }
 
-    boolean empty() { return this.resource <= 0; }
+    public boolean empty() { return this.resource <= 0; }
 
     //---------------------------------
     //---------------------------------
@@ -55,14 +55,14 @@ public class Resource {
     //-----------  Setters  -----------
     //---------------------------------
 
-    void setMaxResource(double maxResource) { this.maxResource = maxResource; }
+    public void setMaxResource(double maxResource) { this.maxResource = maxResource; }
 
-    void setReplenishmentCooldown(double replenishmentCooldown) {
+    public void setReplenishmentCooldown(double replenishmentCooldown) {
         this.replenishmentCooldown = replenishmentCooldown;
         normalizeReplenishmentCooldown();
     }
 
-    void setReplenishmentSpeed(double replenishmentSpeed) { this.replenishmentSpeed = replenishmentSpeed; }
+    public void setReplenishmentSpeed(double replenishmentSpeed) { this.replenishmentSpeed = replenishmentSpeed; }
 
     //---------------------------------
     //---------------------------------
@@ -71,7 +71,7 @@ public class Resource {
     //-----------  Methods  -----------
     //---------------------------------
 
-    void normalizeResource() {  //Normalizes current this.resource value by projecting it to [0; maxRes]
+    private void normalizeResource() {  //Normalizes current this.resource value by projecting it to [0; maxRes]
         if (this.resource > this.maxResource) {
             this.resource = this.maxResource;
         }
@@ -80,14 +80,14 @@ public class Resource {
         }
     }
 
-    void normalizeReplenishmentCooldown() { //Normalizes replenishment counter by assuring it is not lower then 0
+    private void normalizeReplenishmentCooldown() { //Normalizes replenishment counter by assuring it is not lower then 0
         if(this.replenishmentCooldown < 0) {
             this.replenishmentCooldown = 0;
         }
     }
 
 
-    double lowerRes(double amount){  //Lowers current this.resource by amount
+    public double lowerRes(double amount){  //Lowers current this.resource by amount
         if (amount > this.resource){  //If amount is greater than currently stored resource amount
             double taken = this.resource;  //Make new variable representing maximum possible resource withdraw
             this.resource = 0;  //Set current resource stored to 0
@@ -101,7 +101,7 @@ public class Resource {
         }
     }
 
-    void replenish(double deltaTime){  //Handles replenishment timer and replenishes stored resource
+    public void replenish(double deltaTime){  //Handles replenishment timer and replenishes stored resource
         if(this.replenishmentTimer > 0){  //If the replenishment timer is not 0
             this.replenishmentTimer -= deltaTime;  //Lower the replenishment timer
         }

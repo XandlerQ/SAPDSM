@@ -281,22 +281,22 @@ public class Pack {
     //-----------------------------------
 
     public void render(){
-        App.processingRef.stroke(Color.RED.getRGB(),50);
-        App.processingRef.fill(Color.WHITE.getRGB(),50);
-        App.processingRef.circle(configuration.Render.ORIGINX + (float)this.agents.get(0).getX(), configuration.Render.ORIGINY + (float)this.agents.get(0).getY(), 10);
+        app.processingRef.stroke(Color.RED.getRGB(),50);
+        app.processingRef.fill(Color.WHITE.getRGB(),50);
+        app.processingRef.circle(configuration.Render.ORIGINX + (float)this.agents.get(0).getX(), configuration.Render.ORIGINY + (float)this.agents.get(0).getY(), 10);
         connections.forEach((con) -> {
             Agent ag1 = con.getFirst();
             Agent ag2 = con.getSecond();
             if(getPackSpecies() == 0){
-                App.processingRef.stroke(Color.RED.getRGB(),100);
-                App.processingRef.fill(Color.RED.getRGB(),100);
+                app.processingRef.stroke(Color.RED.getRGB(),100);
+                app.processingRef.fill(Color.RED.getRGB(),100);
             }
             else{
-                App.processingRef.stroke(Color.GREEN.getRGB(),100);
-                App.processingRef.fill(Color.GREEN.getRGB(),100);
+                app.processingRef.stroke(Color.GREEN.getRGB(),100);
+                app.processingRef.fill(Color.GREEN.getRGB(),100);
             }
-            App.processingRef.strokeWeight(1);
-            App.processingRef.line((float)(configuration.Render.ORIGINX + ag1.getX()), (float)(configuration.Render.ORIGINY + ag1.getY()), (float)(configuration.Render.ORIGINX + ag2.getX()), (float)(configuration.Render.ORIGINY + ag2.getY()));
+            app.processingRef.strokeWeight(1);
+            app.processingRef.line((float)(configuration.Render.ORIGINX + ag1.getX()), (float)(configuration.Render.ORIGINY + ag1.getY()), (float)(configuration.Render.ORIGINX + ag2.getX()), (float)(configuration.Render.ORIGINY + ag2.getY()));
         });
 
     }

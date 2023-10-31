@@ -2,6 +2,7 @@ package agent;
 
 import point.Point2D;
 import resource.ResourceNode;
+import area.PropertyArea;
 
 import java.awt.*;
 import java.util.Random;
@@ -380,12 +381,12 @@ public class Agent {
 
     public void render()
     {
-        App.processingRef.stroke(speciesColors[this.species].getRGB());
-        App.processingRef.strokeWeight(1);
-        if (this.energy >= this.suffEnergy) App.processingRef.fill((new Color(255, 170, 0)).getRGB(), 150);
-        else App.processingRef.fill(0);
+        app.processingRef.stroke(speciesColors[this.species].getRGB());
+        app.processingRef.strokeWeight(1);
+        if (this.energy >= this.suffEnergy) app.processingRef.fill((new Color(255, 170, 0)).getRGB(), 150);
+        else app.processingRef.fill(0);
 
-        App.processingRef.circle((float)(configuration.Render.ORIGINX + this.coordinates.getX()), (float)(configuration.Render.ORIGINY + this.coordinates.getY()), 4);
+        app.processingRef.circle((float)(configuration.Render.ORIGINX + this.coordinates.getX()), (float)(configuration.Render.ORIGINY + this.coordinates.getY()), 4);
 
     }
 

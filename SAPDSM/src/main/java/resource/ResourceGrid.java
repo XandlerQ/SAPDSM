@@ -1,6 +1,8 @@
 package resource;
 
 import point.Point2D;
+import agent.*;
+import area.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -445,8 +447,8 @@ public class ResourceGrid {
         for (Iterator<Resource> iterator = this.resources.iterator(); iterator.hasNext();) {
             Resource res = iterator.next();
             float alpha = (float)(res.getResource() / res.getMaxResource());
-            App.processingRef.stroke(cl.getRGB(), 0);
-            App.processingRef.fill(cl.getRGB(), 255 * alpha / 4);
+            app.processingRef.stroke(cl.getRGB(), 0);
+            app.processingRef.fill(cl.getRGB(), 255 * alpha / 4);
 
             int j = index % this.grCtY;
             int i = (index - j) / this.grCtY;
@@ -454,7 +456,7 @@ public class ResourceGrid {
             double originX = i * sideX + configuration.Render.ORIGINX;
             double originY = j * sideY + configuration.Render.ORIGINY;
 
-            App.processingRef.rect((float)originX, (float)originY, (float)sideX, (float)sideY);
+            app.processingRef.rect((float)originX, (float)originY, (float)sideX, (float)sideY);
             index++;
         }
     }
