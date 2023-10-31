@@ -31,7 +31,7 @@ public class Aviary {
     //-----------  Constructors  -----------
     //--------------------------------------
 
-    Aviary () {
+    public Aviary() {
         this.resType = configuration.Resource.RESTYPE;
         this.resGroup = null;
         this.resGrid = null;
@@ -528,23 +528,23 @@ public class Aviary {
         if(connected1 != null){
             connected1.forEach((ag) -> {
                 ag.addToEnergy(-configuration.Agent.NRGPERFIGHT / coef1);
-                app.processingRef.stroke(rivalryCl.getRGB(),100);
-                app.processingRef.strokeWeight(2);
-                app.processingRef.circle((float)ag.getX(), (float)ag.getY(), 5);
+                app.App.processingRef.stroke(rivalryCl.getRGB(),100);
+                app.App.processingRef.strokeWeight(2);
+                app.App.processingRef.circle((float)ag.getX(), (float)ag.getY(), 5);
             });
         }
         if(connected2 != null){
             connected2.forEach((ag) -> {
                 ag.addToEnergy(-configuration.Agent.NRGPERFIGHT / coef2);
-                app.processingRef.stroke(rivalryCl.getRGB(),100);
-                app.processingRef.strokeWeight(2);
-                app.processingRef.circle((float)ag.getX(), (float)ag.getY(), 5);
+                app.App.processingRef.stroke(rivalryCl.getRGB(),100);
+                app.App.processingRef.strokeWeight(2);
+                app.App.processingRef.circle((float)ag.getX(), (float)ag.getY(), 5);
             });
         }
 
-        app.processingRef.stroke(rivalryCl.getRGB(),100);
-        app.processingRef.strokeWeight(2);
-        app.processingRef.line((float)(configuration.Render.ORIGINX + agent1.getX()), (float)(configuration.Render.ORIGINY + agent1.getY()), (float)(configuration.Render.ORIGINX + agent2.getX()), (float)(configuration.Render.ORIGINY + agent2.getY()));
+        app.App.processingRef.stroke(rivalryCl.getRGB(),100);
+        app.App.processingRef.strokeWeight(2);
+        app.App.processingRef.line((float)(configuration.Render.ORIGINX + agent1.getX()), (float)(configuration.Render.ORIGINY + agent1.getY()), (float)(configuration.Render.ORIGINX + agent2.getX()), (float)(configuration.Render.ORIGINY + agent2.getY()));
     }
 
     void fights(){
@@ -552,7 +552,7 @@ public class Aviary {
             Agent ag1 = iter1.next();
             for(Iterator<Agent> iter2 = agents.iterator(); iter2.hasNext();){
                 Agent ag2 = iter2.next();
-                if(ag1.getSpecies() != ag2.getSpecies() && ag1.getDistTo(ag2.getX(), ag2.getY()) <= app.FIGHTDIST){
+                if(ag1.getSpecies() != ag2.getSpecies() && ag1.getDistTo(ag2.getX(), ag2.getY()) <= configuration.Agent.FIGHTDIST){
                     fight(ag1, ag2);
                 }
             }
@@ -687,7 +687,7 @@ public class Aviary {
 
     //---------------Main---------------
 
-    void initialize() {
+    public void initialize() {
 
         if(this.resType == configuration.Resource.RESOURCETYPES.DISCRETE) this.resGroup = Builder.buildResourceGroup();
         if(this.resType == configuration.Resource.RESOURCETYPES.PLAIN) this.resGrid = Builder.buildResourceGrid();
@@ -735,8 +735,8 @@ public class Aviary {
     }
 
     void preProcedure() {
-        if (this.resType == configuration.Resource.RESOURCETYPES.DISCRETE && this.resGroup != null) resGroup.replenishNodes();
-        if (this.resType == configuration.Resource.RESOURCETYPES.PLAIN && this.resGrid != null) resGrid.replenish();
+        if (this.resType == configuration.Resource.RESOURCETYPES.DISCRETE && this.resGroup != null) resGroup.replenishNodes(configuration.Aviary.TICKDELTATIME);
+        if (this.resType == configuration.Resource.RESOURCETYPES.PLAIN && this.resGrid != null) resGrid.replenish(configuration.Aviary.TICKDELTATIME);
         if (this.shiftIntersection != configuration.PropertyGrid.SHIFTINTERSECTIONMODES.STATIC) shiftIntersection();
     }
 
@@ -820,7 +820,7 @@ public class Aviary {
         postProcedure();
     }
 
-    boolean run(){                                                       //Main method                                                                           //Perform animation tick
+    public boolean run(){                                                       //Main method                                                                           //Perform animation tick
         render();
         tick();
         boolean end = endPredicate();
@@ -856,7 +856,7 @@ public class Aviary {
     }
 
     void render(){                                                    //Renders aviary
-        app.processingRef.background(0);
+        app.App.processingRef.background(0);
         renderPropertyGrid();
         if(configuration.Render.RENDER) {
             renderRes();

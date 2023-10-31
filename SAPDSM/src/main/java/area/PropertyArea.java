@@ -161,10 +161,10 @@ public class PropertyArea<Property> {
     //-----------------------------------
 
     public void render() {
-        app.processingRef.fill(color.getRGB(), 25);
-        app.processingRef.stroke(color.getRGB(), 50);
-        app.processingRef.strokeWeight(2);
-        app.processingRef.rect((float)(configuration.Render.ORIGINX + this.originX), (float)(configuration.Render.ORIGINY + this.originY), (float)(this.sideX), (float)(this.sideY));
+        app.App.processingRef.fill(color.getRGB(), 25);
+        app.App.processingRef.stroke(color.getRGB(), 50);
+        app.App.processingRef.strokeWeight(2);
+        app.App.processingRef.rect((float)(configuration.Render.ORIGINX + this.originX), (float)(configuration.Render.ORIGINY + this.originY), (float)(this.sideX), (float)(this.sideY));
     }
 
     //-----------------------------------

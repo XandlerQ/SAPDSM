@@ -109,11 +109,11 @@ public class ResourceNode extends Resource {
 
     void render(){
         recalculateSize();
-        app.processingRef.noStroke();
-        app.processingRef.fill(cl.getRGB(), 255);
-        app.processingRef.circle(configuration.Render.ORIGINX + (float)this.coordinates.getX(), configuration.Render.ORIGINY + (float)this.coordinates.getY(), 2);
-        app.processingRef.fill(cl.getRGB(), 150);
-        app.processingRef.circle(configuration.Render.ORIGINX + (float)this.coordinates.getX(), configuration.Render.ORIGINY + (float)this.coordinates.getY(), (float)size);
+        app.App.processingRef.noStroke();
+        app.App.processingRef.fill(cl.getRGB(), 255);
+        app.App.processingRef.circle(configuration.Render.ORIGINX + (float)this.coordinates.getX(), configuration.Render.ORIGINY + (float)this.coordinates.getY(), 2);
+        app.App.processingRef.fill(cl.getRGB(), 150);
+        app.App.processingRef.circle(configuration.Render.ORIGINX + (float)this.coordinates.getX(), configuration.Render.ORIGINY + (float)this.coordinates.getY(), (float)size);
     }
 
     //-----------------------------------

@@ -119,8 +119,8 @@ public class ResourceGrid {
         }
     }
 
-    public void replenish(){
-        this.resources.forEach((res) -> {res.replenish();});
+    public void replenish(double deltaTime){
+        this.resources.forEach((res) -> {res.replenish(deltaTime);});
     }
 
     public double getGradientDirectionIntersection(Agent agent, Point2D intersection) {
@@ -234,7 +234,7 @@ public class ResourceGrid {
 
         Point2D gradientDot = new Point2D(agent.getX() + shiftX, agent.getY() + shiftY);
 
-        gradientDirection = Direction.directionFromTo(agent.getCoordinates(), gradientDot);
+        gradientDirection = angle.Angle.directionFromTo(agent.getCoordinates(), gradientDot);
 
         return gradientDirection;
     }
@@ -305,7 +305,7 @@ public class ResourceGrid {
 
         Point2D gradientDot = new Point2D(agent.getX() + shiftX, agent.getY() + shiftY);
 
-        gradientDirection = Direction.directionFromTo(agent.getCoordinates(), gradientDot);
+        gradientDirection = angle.Angle.directionFromTo(agent.getCoordinates(), gradientDot);
 
         return gradientDirection;
     }
@@ -447,8 +447,8 @@ public class ResourceGrid {
         for (Iterator<Resource> iterator = this.resources.iterator(); iterator.hasNext();) {
             Resource res = iterator.next();
             float alpha = (float)(res.getResource() / res.getMaxResource());
-            app.processingRef.stroke(cl.getRGB(), 0);
-            app.processingRef.fill(cl.getRGB(), 255 * alpha / 4);
+            app.App.processingRef.stroke(cl.getRGB(), 0);
+            app.App.processingRef.fill(cl.getRGB(), 255 * alpha / 4);
 
             int j = index % this.grCtY;
             int i = (index - j) / this.grCtY;
@@ -456,7 +456,7 @@ public class ResourceGrid {
             double originX = i * sideX + configuration.Render.ORIGINX;
             double originY = j * sideY + configuration.Render.ORIGINY;
 
-            app.processingRef.rect((float)originX, (float)originY, (float)sideX, (float)sideY);
+            app.App.processingRef.rect((float)originX, (float)originY, (float)sideX, (float)sideY);
             index++;
         }
     }

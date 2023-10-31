@@ -381,12 +381,12 @@ public class Agent {
 
     public void render()
     {
-        app.processingRef.stroke(speciesColors[this.species].getRGB());
-        app.processingRef.strokeWeight(1);
-        if (this.energy >= this.suffEnergy) app.processingRef.fill((new Color(255, 170, 0)).getRGB(), 150);
-        else app.processingRef.fill(0);
+        app.App.processingRef.stroke(speciesColors[this.species].getRGB());
+        app.App.processingRef.strokeWeight(1);
+        if (this.energy >= this.suffEnergy) app.App.processingRef.fill((new Color(255, 170, 0)).getRGB(), 150);
+        else app.App.processingRef.fill(0);
 
-        app.processingRef.circle((float)(configuration.Render.ORIGINX + this.coordinates.getX()), (float)(configuration.Render.ORIGINY + this.coordinates.getY()), 4);
+        app.App.processingRef.circle((float)(configuration.Render.ORIGINX + this.coordinates.getX()), (float)(configuration.Render.ORIGINY + this.coordinates.getY()), 4);
 
     }
 

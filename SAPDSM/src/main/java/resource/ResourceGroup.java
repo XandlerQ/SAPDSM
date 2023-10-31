@@ -246,14 +246,14 @@ public class ResourceGroup {
     public void render()
     {
         this.resNodes.forEach(ResourceNode::render);
-        app.processingRef.stroke(cl.getRGB(), 100);
-        app.processingRef.strokeWeight(2);
+        app.App.processingRef.stroke(cl.getRGB(), 100);
+        app.App.processingRef.strokeWeight(2);
         for(int i = 0; i < this.grCtX + 1; i++){
-            app.processingRef.line(configuration.Render.ORIGINX + (float)(i * this.sideX), configuration.Render.ORIGINY,
+            app.App.processingRef.line(configuration.Render.ORIGINX + (float)(i * this.sideX), configuration.Render.ORIGINY,
                     configuration.Render.ORIGINX + (float)(i * this.sideX), configuration.Render.ORIGINY + (float)(this.defY));
         }
         for(int j = 0; j < this.grCtY + 1; j++){
-            app.processingRef.line(configuration.Render.ORIGINX, configuration.Render.ORIGINY + (float)(j * this.sideY),
+            app.App.processingRef.line(configuration.Render.ORIGINX, configuration.Render.ORIGINY + (float)(j * this.sideY),
                     configuration.Render.ORIGINX + (float)(this.defX), configuration.Render.ORIGINY + (float)(j * this.sideY));
         }
     }

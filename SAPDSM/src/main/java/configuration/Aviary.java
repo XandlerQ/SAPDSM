@@ -6,4 +6,6 @@ public class Aviary {
 
     public static boolean SYSSPAWN = false;
     public static boolean REGIONSPECIFIC = true;
+
+    public static double TICKDELTATIME = 1.0;
 }
