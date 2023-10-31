@@ -19,6 +19,7 @@ public class Point2D extends Point {
         this.y = point2D.y;
     }
 
+
     public double getX() { return this.x; }
     public double getY() { return this.y; }
 
