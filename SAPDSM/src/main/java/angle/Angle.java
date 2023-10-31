@@ -1,12 +1,12 @@
-package direction;
+package angle;
 
 import point.Point2D;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Direction {
-    static double directionAddition(double dir1, double dir2){
+public class Angle {
+    public static double directionAddition(double dir1, double dir2){
         double resDir = -1;
         double x1, y1, x2, y2;
         x1 = Math.cos(dir1);
@@ -35,7 +35,7 @@ public class Direction {
         return resDir;
     }
 
-    static double directionAddition(ArrayList<Double> dirs){
+    public static double directionAddition(ArrayList<Double> dirs){
         double resDir = -1;
 
         if(dirs.size() == 0)
@@ -77,7 +77,7 @@ public class Direction {
         return resDir;
     }
 
-    static double normalizeDirection(double argDir){
+    public static double normalizeDirection(double argDir){
         double dir = argDir;
         while(dir < 0){
             dir += 2 * Math.PI;
@@ -88,7 +88,7 @@ public class Direction {
         return dir;
     }
 
-    static double directionFromTo(Point2D from, Point2D to) {
+    public static double directionFromTo(Point2D from, Point2D to) {
         double distance = Point2D.distanceBetween(from, to);
 
         if(distance == 0) {
