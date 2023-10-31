@@ -20,7 +20,7 @@ public class ResourceGrid {
     //-----------  Constructors  -----------
     //---------------------------------------
 
-    ResourceGrid() {
+    public ResourceGrid() {
         this.defX = 0;
         this.defY = 0;
         this.grCtX = 0;
@@ -28,7 +28,7 @@ public class ResourceGrid {
         this.resources = null;
     }
 
-    ResourceGrid(double defX, double defY, int grCtX, int grCtY) {
+    public ResourceGrid(double defX, double defY, int grCtX, int grCtY) {
         this.defX = defX;
         this.defY = defY;
         this.grCtX = grCtX;
@@ -83,15 +83,15 @@ public class ResourceGrid {
     //-----------  Setters  -----------
     //---------------------------------
 
-    void setMaxRes(double maxRes){
+    public void setMaxRes(double maxRes){
         this.resources.forEach((res) -> {res.setMaxResource(maxRes);});
     }
 
-    void setResRepSpeed(double resRepSpeed){
+    public void setResRepSpeed(double resRepSpeed){
         this.resources.forEach((res) -> {res.setReplenishmentSpeed(resRepSpeed);});
     }
 
-    void setRepCtrPeak(int repCtrPeak){
+    public void setRepCtrPeak(int repCtrPeak){
         this.resources.forEach((res) -> {res.setReplenishmentCooldown(repCtrPeak);});
     }
 
@@ -102,7 +102,7 @@ public class ResourceGrid {
     //-----------  Methods  -----------
     //---------------------------------
 
-    void fillResources(double maxRes, double fraction, double resRepSpeed, int repCtrPeak) {
+    public void fillResources(double maxRes, double fraction, double resRepSpeed, int repCtrPeak) {
         for(int i = 0; i < this.grCtX; i++) {
             for (int j = 0; j < this.grCtY; j++) {
                 this.resources.add(
@@ -117,11 +117,11 @@ public class ResourceGrid {
         }
     }
 
-    void replenish(){
+    public void replenish(){
         this.resources.forEach((res) -> {res.replenish();});
     }
 
-    double getGradientDirectionIntersection(Agent agent, Point2D intersection) {
+    public double getGradientDirectionIntersection(Agent agent, Point2D intersection) {
         double gradientDirection;
 
         double sideX = this.defX / this.grCtX;
@@ -237,7 +237,7 @@ public class ResourceGrid {
         return gradientDirection;
     }
 
-    double getGradientDirection(Agent agent) {
+    public double getGradientDirection(Agent agent) {
         double gradientDirection;
 
         double sideX = this.defX / this.grCtX;
@@ -308,7 +308,7 @@ public class ResourceGrid {
         return gradientDirection;
     }
 
-    double[] getResourceInAreas(PropertyGrid propertyGrid) {
+    public double[] getResourceInAreas(PropertyGrid propertyGrid) {
         double[] resourceInAres = new double[4];
 
         for (int i = 0; i < 4; i++) {
@@ -338,7 +338,7 @@ public class ResourceGrid {
         return resourceInAres;
     }
 
-    double resourceWithdraw(Point2D dot, double amount) {
+    public double resourceWithdraw(Point2D dot, double amount) {
         double sideX = this.defX / this.grCtX;
         double sideY = this.defY / this.grCtY;
 
@@ -352,7 +352,7 @@ public class ResourceGrid {
         return resource.lowerRes(amount);
     }
 
-    double resourceWithdraw(Point2D dot, Point2D intersection, double amount, int extent) {
+    public double resourceWithdraw(Point2D dot, Point2D intersection, double amount, int extent) {
 
         if (extent == 0) {
             return resourceWithdraw(dot, amount);
@@ -438,7 +438,7 @@ public class ResourceGrid {
     //-----------  Renderers  -----------
     //-----------------------------------
 
-    void render() {
+    public void render() {
         double sideX = this.defX / this.grCtX;
         double sideY = this.defY / this.grCtY;
         int index = 0;

@@ -17,14 +17,14 @@ public class ResourceNode extends Resource {
     //-----------  Constructors  -----------
     //---------------------------------------
 
-    ResourceNode() {
+    public ResourceNode() {
         super();
         this.id = resIdGen.incrementAndGet();
         this.coordinates = null;
         this.size = 0;
     }
 
-    ResourceNode(double maxRes, double fraction, double resRepSpeed, int repCtrPeak,
+    public ResourceNode(double maxRes, double fraction, double resRepSpeed, int repCtrPeak,
                  double x, double y) {
         super(maxRes, fraction, resRepSpeed, repCtrPeak);
         this.id = resIdGen.incrementAndGet();
@@ -32,7 +32,7 @@ public class ResourceNode extends Resource {
         this.size = configuration.Resource.RESOURCENODESIZE * super.resource / super.maxResource;
     }
 
-    ResourceNode(double maxRes, double fraction, double resRepSpeed, int repCtrPeak,
+    public ResourceNode(double maxRes, double fraction, double resRepSpeed, int repCtrPeak,
                  Point2D coordinates) {
         this(maxRes, fraction, resRepSpeed, repCtrPeak, coordinates.getX(), coordinates.getY());
     }
@@ -44,23 +44,23 @@ public class ResourceNode extends Resource {
     //-----------  Getters  -----------
     //---------------------------------
 
-    int getId() {
+    public int getId() {
         return this.id;
     }
 
-    double getX() {
+    public double getX() {
         return this.coordinates.getX();
     }
 
-    double getY() {
+    public double getY() {
         return this.coordinates.getY();
     }
 
-    Point2D getCoordinates() {
+    public Point2D getCoordinates() {
         return this.coordinates;
     }
 
-    double getSize() {
+    public double getSize() {
         return this.size;
     }
 
@@ -71,11 +71,11 @@ public class ResourceNode extends Resource {
     //-----------  Setters  -----------
     //---------------------------------
 
-    void setCoordinates(double x, double y) {
+    public void setCoordinates(double x, double y) {
         this.coordinates.setXY(x, y);
     }
 
-    void setColor(Color cl) {
+    public void setColor(Color cl) {
         this.cl = cl;
     }
 
@@ -86,7 +86,7 @@ public class ResourceNode extends Resource {
     //-----------  Methods  -----------
     //---------------------------------
 
-    void recalculateSize() {
+    public void recalculateSize() {
         this.size = configuration.Resource.RESOURCENODESIZE * this.resource / this.maxResource;
     }
 

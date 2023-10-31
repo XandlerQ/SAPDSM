@@ -11,7 +11,7 @@ public class Resource {
     //-----------  Constructors  -----------
     //---------------------------------------
 
-    Resource() {  //Default constructor
+    public Resource() {  //Default constructor
         this.resource = 0;  //Empty by default
         this.maxResource = 0;  //Zero capacity
         this.replenishmentSpeed = 0;  //No replenishment speed
@@ -19,7 +19,7 @@ public class Resource {
         this.replenishmentCooldown = 0;  //No replenishment counter peak
     }
 
-    Resource(double maxResource, double fraction, double replenishmentSpeed, double replenishmentCooldown) {
+    public Resource(double maxResource, double fraction, double replenishmentSpeed, double replenishmentCooldown) {
         //maxResource - Resource capacity;
         //fraction - initial resource amount coefficient, assumed to be in range [0; 1];
         //replenishmentSpeed - resource replenishment speed per tick;

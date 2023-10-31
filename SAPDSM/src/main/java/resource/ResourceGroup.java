@@ -104,15 +104,15 @@ public class ResourceGroup {
     //---------------------------------
 
 
-    void setNodesMaxRes(double maxRes){
+    public void setNodesMaxRes(double maxRes){
         this.resNodes.forEach((node) -> {node.setMaxResource(maxRes);});
     }
 
-    void setNodesResRepSpeed(double resRepSpeed){
+    public void setNodesResRepSpeed(double resRepSpeed){
         this.resNodes.forEach((node) -> {node.setReplenishmentSpeed(resRepSpeed);});
     }
 
-    void setNodesRepCtrPeak(int repCtrPeak){
+    public void setNodesRepCtrPeak(int repCtrPeak){
         this.resNodes.forEach((node) -> {node.setReplenishmentCooldown(repCtrPeak);});
     }
 
@@ -123,7 +123,7 @@ public class ResourceGroup {
     //-----------  Methods  -----------
     //---------------------------------
 
-    double[] getResourceInAreas(PropertyGrid propertyGrid) {
+    public double[] getResourceInAreas(PropertyGrid propertyGrid) {
         double[] resourceInAres = new double[4];
 
         for (int i = 0; i < 4; i++) {
@@ -137,7 +137,7 @@ public class ResourceGroup {
         return resourceInAres;
     }
 
-    Point2D getRndCoordInArea(double origX, double origY, double sideX, double sideY) {
+    public Point2D getRndCoordInArea(double origX, double origY, double sideX, double sideY) {
         Random r = new Random();
         Point2D coordinates = new Point2D();
         coordinates.setX(origX + sideX/20 + (18 * sideX / 20) * r.nextDouble());
@@ -145,7 +145,7 @@ public class ResourceGroup {
         return coordinates;
     }
 
-    void fillResNodes(double maxRes, double fraction, double resRepSpeed, int repCtrPeak) {
+    public void fillResNodes(double maxRes, double fraction, double resRepSpeed, int repCtrPeak) {
         for(int i = 0; i < this.grCtX; i++){
             for(int j = 0; j < this.grCtY; j++){
                 for (int k = 0; k < this.density; k++){
@@ -163,11 +163,11 @@ public class ResourceGroup {
         }
     }
 
-    void replenishNodes(double deltaTime){
+    public void replenishNodes(double deltaTime){
         this.resNodes.forEach((node) -> node.replenish(deltaTime));
     }
 
-    ArrayList<ResourceNode> getVisibleResNodes(double x, double y, double radius){
+    public ArrayList<ResourceNode> getVisibleResNodes(double x, double y, double radius){
 
         if(x < 0) x = 0;
         if(y < 0) y = 0;
@@ -242,7 +242,7 @@ public class ResourceGroup {
     //-----------  Renderers  -----------
     //-----------------------------------
 
-    void render()
+    public void render()
     {
         this.resNodes.forEach(ResourceNode::render);
         App.processingRef.stroke(cl.getRGB(), 100);

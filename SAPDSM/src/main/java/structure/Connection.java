@@ -1,22 +1,24 @@
 package structure;
 
-public class Connection {
-    public agent.Agent ag1;
-    public agent.Agent ag2;
+import agent.Agent;
 
-    Connection() {
+public class Connection {
+    private Agent ag1;
+    private Agent ag2;
+
+    public Connection() {
         this.ag1 = null;
         this.ag2 = null;
     }
 
-    Connection(agent.Agent ag1, agent.Agent ag2){
+    public Connection(Agent ag1, Agent ag2){
         this.ag1 = ag1;
         this.ag2 = ag2;
     }
 
-    boolean contains(agent.Agent ag){ return this.ag1 == ag || this.ag2 == ag; }
+    public boolean contains(Agent ag){ return this.ag1 == ag || this.ag2 == ag; }
 
-    agent.Agent pairOf(agent.Agent ag){
+    public Agent pairOf(Agent ag){
         if(contains(ag)){
             if(this.ag1 == ag)
                 return this.ag2;
@@ -26,9 +28,9 @@ public class Connection {
         return null;
     }
 
-    agent.Agent getFirst(){ return this.ag1; }
+    public Agent getFirst(){ return this.ag1; }
 
-    agent.Agent getSecond(){ return this.ag2; }
+    public Agent getSecond(){ return this.ag2; }
 
     @Override
     public boolean equals(Object obj){

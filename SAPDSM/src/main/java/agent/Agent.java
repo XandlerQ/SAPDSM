@@ -1,6 +1,7 @@
 package agent;
 
 import point.Point2D;
+import resource.ResourceNode;
 
 import java.awt.*;
 import java.util.Random;
@@ -33,7 +34,7 @@ public class Agent {
     private double suffEnergy;
     private double energyDecr;
 
-    private resource.ResourceNode lockedRes;
+    private ResourceNode lockedRes;
     private double collectedRes;
     private double seenRes;
 
@@ -52,7 +53,7 @@ public class Agent {
     //-----------  Constructors  -----------
     //--------------------------------------
 
-    Agent() {
+    public Agent() {
         this.id = agentIdGen.incrementAndGet();
         this.species = 0;
 
@@ -95,63 +96,63 @@ public class Agent {
 
 
 
-    int getId() { return this.id; }
-    int getSpecies() { return this.species; }
+    public int getId() { return this.id; }
+    public int getSpecies() { return this.species; }
 
-    double getX() { return this.coordinates.getX(); }
-    double getY() { return this.coordinates.getY(); }
-    Point2D getCoordinates() { return this.coordinates; }
-    double getDirection() { return this.direction; }
-    double getBaseSpeed() { return this.baseSpeed; }
-    double getSpeed() { return this.speed; }
+    public double getX() { return this.coordinates.getX(); }
+    public double getY() { return this.coordinates.getY(); }
+    public Point2D getCoordinates() { return this.coordinates; }
+    public double getDirection() { return this.direction; }
+    public double getBaseSpeed() { return this.baseSpeed; }
+    public double getSpeed() { return this.speed; }
 
-    double getAge() { return this.age; }
-    double getMaxAge() { return this.maxAge; }
-    double getAgeIncr() { return this.ageIncr; }
+    public double getAge() { return this.age; }
+    public double getMaxAge() { return this.maxAge; }
+    public  double getAgeIncr() { return this.ageIncr; }
 
-    double getEnergy() { return this.energy; }
-    double getMaxEnergy() { return this.maxEnergy; }
-    double getSuffEnergy() { return this.suffEnergy; }
-    double getEnergyDecr() { return this.energyDecr; }
+    public  double getEnergy() { return this.energy; }
+    public double getMaxEnergy() { return this.maxEnergy; }
+    public double getSuffEnergy() { return this.suffEnergy; }
+    public double getEnergyDecr() { return this.energyDecr; }
 
-    double getHunger() { return this.maxEnergy - this.energy; }
-    boolean wellFed() { return this.energy >= this.suffEnergy; }
-    boolean wellFedLone() { return this.energy >= this.maxEnergy * 0.8; }
+    public double getHunger() { return this.maxEnergy - this.energy; }
+    public boolean wellFed() { return this.energy >= this.suffEnergy; }
+    public boolean wellFedLone() { return this.energy >= this.maxEnergy * 0.8; }
 
-    resource.ResourceNode getLockedRes() { return this.lockedRes; }
-    double getCollectedRes() { return this.collectedRes; }
+    public ResourceNode getLockedRes() { return this.lockedRes; }
+    public double getCollectedRes() { return this.collectedRes; }
 
     public double getSeenRes() {
         return seenRes;
     }
 
-    int getValence() { return this.valence; }
+    public int getValence() { return this.valence; }
 
     public PropertyArea getPropertyArea() {
         return propertyArea;
     }
 
-    int getConCount() { return this.conCount; }
-    double getLastHeardAge() { return this.lastHeardAge; }
-    boolean topCon() { return this.conCount >= this.valence; }
+    public int getConCount() { return this.conCount; }
+    public double getLastHeardAge() { return this.lastHeardAge; }
+    public boolean topCon() { return this.conCount >= this.valence; }
 
-    int getActCounter() { return this.actCtr; }
-    int getActCounterPeak() { return this.actCtrPeak; }
+    public int getActCounter() { return this.actCtr; }
+    public int getActCounterPeak() { return this.actCtrPeak; }
 
-    boolean readyToAct() { return this.actCtr == 0; }
+    public boolean readyToAct() { return this.actCtr == 0; }
 
-    boolean stationary() { return this.stationary; }
+    public boolean stationary() { return this.stationary; }
 
-    boolean dead() { return this.energy <= 0 || this.age > this.maxAge; }
+    public boolean dead() { return this.energy <= 0 || this.age > this.maxAge; }
 
 
 
     //---------------------------------
 
-    double getDistTo(double x, double y) { return Point2D.distanceBetween(this.coordinates, new Point2D(x, y)); }
-    double getDistTo(Point2D dot) { return getDistTo(dot.getX(), dot.getY()); }
+    public double getDistTo(double x, double y) { return Point2D.distanceBetween(this.coordinates, new Point2D(x, y)); }
+    public double getDistTo(Point2D dot) { return getDistTo(dot.getX(), dot.getY()); }
 
-    double getEnergyOver() { return this.energy - this.maxEnergy; }
+    public double getEnergyOver() { return this.energy - this.maxEnergy; }
 
 
     //---------------------------------
@@ -161,60 +162,60 @@ public class Agent {
     //-----------  Setters  -----------
     //---------------------------------
 
-    void setSpecies(int species) { this.species = species; }
+    public void setSpecies(int species) { this.species = species; }
 
-    void setCoordinates(Point2D coordinates) { this.coordinates = coordinates; }
-    void setCoordinates(double x, double y) { this.coordinates.setXY(x, y); }
-    void setDirection(double direction) {
+    public void setCoordinates(Point2D coordinates) { this.coordinates = coordinates; }
+    public void setCoordinates(double x, double y) { this.coordinates.setXY(x, y); }
+    public void setDirection(double direction) {
         this.direction = direction;
         normalizeDirection();
     }
 
-    void setBaseSpeed(double baseSpeed) { this.baseSpeed = baseSpeed; }
+    public void setBaseSpeed(double baseSpeed) { this.baseSpeed = baseSpeed; }
 
     public void setAge(double age) { this.age = age; }
     public void setMaxAge(double maxAge) { this.maxAge = maxAge; }
-    void setAgeIncr(double ageIncr) { this.ageIncr = ageIncr; }
+    public void setAgeIncr(double ageIncr) { this.ageIncr = ageIncr; }
 
-    void setEnergy(double energy) {
+    public void setEnergy(double energy) {
         this.energy = energy;
         normalizeEnergy();
     }
 
-    void setMaxEnergy(double maxEnergy) { this.maxEnergy = maxEnergy; }
-    void setSuffEnergy(double suffEnergy) { this.suffEnergy = suffEnergy; }
-    void setEnergyDecr(double energyDecr) { this.energyDecr = energyDecr; }
+    public void setMaxEnergy(double maxEnergy) { this.maxEnergy = maxEnergy; }
+    public void setSuffEnergy(double suffEnergy) { this.suffEnergy = suffEnergy; }
+    public void setEnergyDecr(double energyDecr) { this.energyDecr = energyDecr; }
 
-    void setLockedRes(resource.ResourceNode resNode) { this.lockedRes = resNode; }
-    void setCollectedRes(double collectedRes) { this.collectedRes = collectedRes; }
+    public void setLockedRes(ResourceNode resNode) { this.lockedRes = resNode; }
+    public void setCollectedRes(double collectedRes) { this.collectedRes = collectedRes; }
 
     public void setSeenRes(double seenRes) {
         this.seenRes = seenRes;
     }
 
-    void collect(double res) { this.collectedRes += res; }
-    void resetCollectedRes() { this.collectedRes = 0; }
-    void resetSeenRes() { this.seenRes = 0; }
+    public void collect(double res) { this.collectedRes += res; }
+    public void resetCollectedRes() { this.collectedRes = 0; }
+    public void resetSeenRes() { this.seenRes = 0; }
 
-    void setValence(int valence) { this.valence = valence; }
+    public void setValence(int valence) { this.valence = valence; }
 
     public void setPropertyArea(PropertyArea propertyArea) {
         this.propertyArea = propertyArea;
     }
 
-    void setLastHeardAge(double age) { this.lastHeardAge = age; }
-    void resetLastHeardAge() { this.lastHeardAge = -1; }
-    void resetConCount() { this.conCount = 0; }
+    public void setLastHeardAge(double age) { this.lastHeardAge = age; }
+    public void resetLastHeardAge() { this.lastHeardAge = -1; }
+    public void resetConCount() { this.conCount = 0; }
 
 
-    void setActCtrPeak(int actCtrPeak) { this.actCtrPeak = actCtrPeak; }
-    void getReadyToAct() { this.actCtr = 0; }
-    void resetActCtr() { this.actCtr = this.actCtrPeak; }
+    public void setActCtrPeak(int actCtrPeak) { this.actCtrPeak = actCtrPeak; }
+    public void getReadyToAct() { this.actCtr = 0; }
+    public void resetActCtr() { this.actCtr = this.actCtrPeak; }
 
-    void setStationary(boolean stationary) { this.stationary = stationary; }
-    void lock() { this.stationary = true; }
-    void unlock() { this.stationary = false; }
-    void turnAround() {
+    public void setStationary(boolean stationary) { this.stationary = stationary; }
+    public void lock() { this.stationary = true; }
+    public void unlock() { this.stationary = false; }
+    public void turnAround() {
         this.direction += Math.PI;
         normalizeDirection();
     }
@@ -235,30 +236,30 @@ public class Agent {
         }
     }
 
-    void addToEnergy(double nrg) {
+    public void addToEnergy(double nrg) {
         this.energy += nrg;
         normalizeEnergy();
     }
 
-    void eat(double res) {
+    public void eat(double res) {
         this.energy += res;
         normalizeEnergy();
     }
 
-    void eatCollected() {
+    public void eatCollected() {
         eat(this.collectedRes);
         resetCollectedRes();
     }
 
     //---------------------------------
 
-    boolean addCon() {
+    public boolean addCon() {
         if(topCon()) return false;
         this.conCount++;
         return true;
     }
 
-    boolean removeCon() {
+    public boolean removeCon() {
         if(this.conCount == 0) return false;
         this.conCount--;
         return true;
@@ -266,7 +267,7 @@ public class Agent {
 
     //---------------------------------
 
-    void updateSpeed() {
+    public void updateSpeed() {
         this.speed = this.baseSpeed
                 - configuration.Agent.SPEEDAGECOEFF * (this.baseSpeed / 4)
                 * (4 * (this.age - this.maxAge/2) * (this.age - this.maxAge/2) / (this.maxAge * this.maxAge));
@@ -274,12 +275,12 @@ public class Agent {
 
     //---------------------------------
 
-    void normalizeDirection() {
+    public void normalizeDirection() {
         while(this.direction < 0) this.direction += 2 * Math.PI;
         while(this.direction >= 2 * Math.PI) this.direction -= 2 * Math.PI;
     }
 
-    double dirToFace(double x, double y) {
+    public double dirToFace(double x, double y) {
         double distance = Point2D.distanceBetween(this.coordinates, new Point2D(x, y));
 
         if(distance == 0) {
@@ -292,15 +293,15 @@ public class Agent {
         else return 2 * Math.PI - direction;
     }
 
-    double dirToFace(Point2D dot) { return dirToFace(dot.getX(), dot.getY()); }
+    public double dirToFace(Point2D dot) { return dirToFace(dot.getX(), dot.getY()); }
 
-    void face(double x, double y) { this.direction = dirToFace(x, y); }
-    void face(Point2D dot) { this.direction = dirToFace(dot); }
-    void adjustDirectionTo(Point2D dot) { this.direction = angle.Angle.directionAddition(this.direction, dirToFace(dot)); }
+    public void face(double x, double y) { this.direction = dirToFace(x, y); }
+    public void face(Point2D dot) { this.direction = dirToFace(dot); }
+    public void adjustDirectionTo(Point2D dot) { this.direction = angle.Angle.directionAddition(this.direction, dirToFace(dot)); }
 
     //---------------------------------
 
-    void step() {
+    public void step() {
 
         this.age += this.ageIncr;
         updateSpeed();
@@ -377,7 +378,7 @@ public class Agent {
     //-----------  Renderers  -----------
     //-----------------------------------
 
-    void render()
+    public void render()
     {
         App.processingRef.stroke(speciesColors[this.species].getRGB());
         App.processingRef.strokeWeight(1);
