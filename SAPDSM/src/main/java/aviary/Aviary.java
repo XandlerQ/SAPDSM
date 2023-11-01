@@ -84,11 +84,11 @@ public class Aviary {
         return null;
     }
 
-    int getPopulation() {
+    public int getPopulation() {
         return this.agents.size();
     }
 
-    double[][] getDataInAreas() {
+    public double[][] getDataInAreas() {
         double areaData[][] = new double[4][4];
 
         for(int i = 0; i < 3; i++) {
@@ -696,39 +696,39 @@ public class Aviary {
 
         this.packs = new ArrayList<>();
 
-//        this.observer = new Observer(this);
-//        this.observer.fillTimeGraphs();
-//        if (App.REPORTTOFILE) {
-//            this.observer.setDataReportFileName(this.observer.formTimeStampDataFileName());
-//            this.observer.setParameterReportFileName(this.observer.formTimeStampParametersFileName());
-//
-//            ArrayList<String> reportDataHeaders = new ArrayList<>();
-//            reportDataHeaders.add("Population");
-//
-//            reportDataHeaders.add("Population area 0");
-//            reportDataHeaders.add("Population area 1");
-//            reportDataHeaders.add("Population area 2");
-//            reportDataHeaders.add("Population area 3");
-//
-//            reportDataHeaders.add("Energy density area 0");
-//            reportDataHeaders.add("Energy density area 1");
-//            reportDataHeaders.add("Energy density area 2");
-//            reportDataHeaders.add("Energy density area 3");
-//
-//            reportDataHeaders.add("Pack count area 0");
-//            reportDataHeaders.add("Pack count area 1");
-//            reportDataHeaders.add("Pack count area 2");
-//
-//            reportDataHeaders.add("Resource area 0");
-//            reportDataHeaders.add("Resource area 1");
-//            reportDataHeaders.add("Resource area 2");
-//            reportDataHeaders.add("Resource area 3");
-//
-//            this.observer.setReportDataHeaders(reportDataHeaders);
-//            this.observer.writeDataHeaders();
-//
-//            this.observer.parameterReport();
-//        }
+        this.observer = new Observer(this);
+        this.observer.fillTimeGraphs();
+        if (configuration.Observer.REPORTTOFILE) {
+            this.observer.setDataReportFileName(this.observer.formTimeStampDataFileName());
+            this.observer.setParameterReportFileName(this.observer.formTimeStampParametersFileName());
+
+            ArrayList<String> reportDataHeaders = new ArrayList<>();
+            reportDataHeaders.add("Population");
+
+            reportDataHeaders.add("Population area 0");
+            reportDataHeaders.add("Population area 1");
+            reportDataHeaders.add("Population area 2");
+            reportDataHeaders.add("Population area 3");
+
+            reportDataHeaders.add("Energy density area 0");
+            reportDataHeaders.add("Energy density area 1");
+            reportDataHeaders.add("Energy density area 2");
+            reportDataHeaders.add("Energy density area 3");
+
+            reportDataHeaders.add("Pack count area 0");
+            reportDataHeaders.add("Pack count area 1");
+            reportDataHeaders.add("Pack count area 2");
+
+            reportDataHeaders.add("Resource area 0");
+            reportDataHeaders.add("Resource area 1");
+            reportDataHeaders.add("Resource area 2");
+            reportDataHeaders.add("Resource area 3");
+
+            this.observer.setReportDataHeaders(reportDataHeaders);
+            this.observer.writeDataHeaders();
+
+            this.observer.parameterReport();
+        }
     }
 
     void preProcedure() {
@@ -788,8 +788,8 @@ public class Aviary {
             ag.resetLastHeardAge();
             ag.resetSeenRes();
         });
-//        this.observer.addGraphData();
-//        if (App.REPORTTOFILE) this.observer.reportRow();
+        this.observer.addGraphData();
+        if (configuration.Observer.REPORTTOFILE) this.observer.reportRow();
 
         this.tk++;
     }
@@ -798,17 +798,16 @@ public class Aviary {
         Point2D intersection = this.propertyGrid.getIntersection();
         double x = intersection.getX();
         double y = intersection.getY();
-//        return this.observer.getReportRowCtr() >= 600
-//                || (x <= 0.00001 && y <= 0.00001)
-//                || (x <= 0.00001 && y >= App.DEFY - 0.00001)
-//                || (x >= App.DEFX - 0.00001 && y <= 0.00001)
-//                || (x >= App.DEFX - 0.00001 && y >= App.DEFY - 0.00001)
-//                || (getPopulation() <= 0);
-        return false;
+        return this.observer.getReportRowCtr() >= 600
+                || (x <= 0.00001 && y <= 0.00001)
+                || (x <= 0.00001 && y >= configuration.Aviary.DEFY - 0.00001)
+                || (x >= configuration.Aviary.DEFX - 0.00001 && y <= 0.00001)
+                || (x >= configuration.Aviary.DEFX - 0.00001 && y >= configuration.Aviary.DEFY - 0.00001)
+                || (getPopulation() <= 0);
     }
 
     void deinitialize() {
-//        if (configuration.Observer.REPORTTOFILE) this.observer.finalReport();
+        if (configuration.Observer.REPORTTOFILE) this.observer.finalReport();
     }
 
     void tick(){
@@ -849,7 +848,7 @@ public class Aviary {
     }
 
     void renderObserver() {
-//        this.observer.render();
+       this.observer.render();
     }
 
     void render(){                                                    //Renders aviary
@@ -860,7 +859,7 @@ public class Aviary {
             renderPacks();
             renderAgent();
         }
-        //renderObserver();
+        renderObserver();
     }
 
     //-----------------------------------

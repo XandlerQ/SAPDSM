@@ -38,6 +38,13 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/controlP5.jar</systemPath>
     </dependency>
+    <dependency>
+      <groupId>grafica</groupId>
+      <artifactId>grafica</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/grafica.jar</systemPath>
+    </dependency>
   </dependencies>
 
 </project>

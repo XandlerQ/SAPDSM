@@ -9,5 +9,5 @@ public class Aviary {
     public static boolean SYSSPAWN = false;
     public static boolean REGIONSPECIFIC = true;
 
-    public static double TICKDELTATIME = 0.1;
+    public static double TICKDELTATIME = 2.0;
 }
