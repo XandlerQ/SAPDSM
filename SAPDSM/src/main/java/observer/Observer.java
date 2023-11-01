@@ -171,45 +171,12 @@ public class Observer {
         populationArea1Graph.setInteger(true);
         populationArea1Graph.setScaleSynchronizer(populationScaleSynchronizer);
 
-        TimeGraph populationArea2Graph = new TimeGraph(graphDimX * 2, graphDimY, graphCapacity);
-        populationArea2Graph.setTitle("");
-        populationArea2Graph.setOrigin(configuration.Render.ORIGINX + configuration.Aviary.DEFX, graphDimY + 5);
-        populationArea2Graph.setPlainCl(new Color(0, 0, 0, 0));
-        populationArea2Graph.setBorderCl(new Color(100, 100, 100));
-        populationArea2Graph.setDotCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        populationArea2Graph.setLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        populationArea2Graph.setLevelLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        populationArea2Graph.setValueTextCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        populationArea2Graph.setTextSize(8);
-        populationArea2Graph.setRenderScale(false);
-        populationArea2Graph.setRenderTitle(false);
-        populationArea2Graph.setInteger(true);
-        populationArea2Graph.setScaleSynchronizer(populationScaleSynchronizer);
-
-        TimeGraph populationArea3Graph = new TimeGraph(graphDimX * 2, graphDimY, graphCapacity);
-        populationArea3Graph.setTitle("");
-        populationArea3Graph.setOrigin(configuration.Render.ORIGINX + configuration.Aviary.DEFX, graphDimY + 5);
-        populationArea3Graph.setPlainCl(new Color(0, 0, 0, 0));
-        populationArea3Graph.setBorderCl(new Color(100, 100, 100));
-        populationArea3Graph.setDotCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        populationArea3Graph.setLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        populationArea3Graph.setLevelLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        populationArea3Graph.setValueTextCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        populationArea3Graph.setTextSize(8);
-        populationArea3Graph.setRenderScale(false);
-        populationArea3Graph.setRenderTitle(false);
-        populationArea3Graph.setInteger(true);
-        populationArea3Graph.setScaleSynchronizer(populationScaleSynchronizer);
 
         populationScaleSynchronizer.addGraph(populationArea0Graph);
         populationScaleSynchronizer.addGraph(populationArea1Graph);
-        populationScaleSynchronizer.addGraph(populationArea2Graph);
-        populationScaleSynchronizer.addGraph(populationArea3Graph);
 
         this.timeGraphs.add(populationArea0Graph);
         this.timeGraphs.add(populationArea1Graph);
-        this.timeGraphs.add(populationArea2Graph);
-        this.timeGraphs.add(populationArea3Graph);
 
         ScaleSynchronizer energyDensityScaleSynchronizer = new ScaleSynchronizer();
 
@@ -241,43 +208,11 @@ public class Observer {
         energyDensityArea1Graph.setRenderTitle(false);
         energyDensityArea1Graph.setScaleSynchronizer(energyDensityScaleSynchronizer);
 
-        TimeGraph energyDensityArea2Graph = new TimeGraph(graphDimX * 2, graphDimY, graphCapacity);
-        energyDensityArea2Graph.setTitle("");
-        energyDensityArea2Graph.setOrigin(configuration.Render.ORIGINX + configuration.Aviary.DEFX, 2 * graphDimY + 5);
-        energyDensityArea2Graph.setPlainCl(new Color(0, 0, 0, 0));
-        energyDensityArea2Graph.setBorderCl(new Color(100, 100, 100));
-        energyDensityArea2Graph.setDotCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        energyDensityArea2Graph.setLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        energyDensityArea2Graph.setLevelLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        energyDensityArea2Graph.setValueTextCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        energyDensityArea2Graph.setTextSize(8);
-        energyDensityArea2Graph.setRenderScale(false);
-        energyDensityArea2Graph.setRenderTitle(false);
-        energyDensityArea2Graph.setScaleSynchronizer(energyDensityScaleSynchronizer);
-
-        TimeGraph energyDensityArea3Graph = new TimeGraph(graphDimX * 2, graphDimY, graphCapacity);
-        energyDensityArea3Graph.setTitle("");
-        energyDensityArea3Graph.setOrigin(configuration.Render.ORIGINX + configuration.Aviary.DEFX, 2 * graphDimY + 5);
-        energyDensityArea3Graph.setPlainCl(new Color(0, 0, 0, 0));
-        energyDensityArea3Graph.setBorderCl(new Color(100, 100, 100));
-        energyDensityArea3Graph.setDotCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        energyDensityArea3Graph.setLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        energyDensityArea3Graph.setLevelLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        energyDensityArea3Graph.setValueTextCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        energyDensityArea3Graph.setTextSize(8);
-        energyDensityArea3Graph.setRenderScale(false);
-        energyDensityArea3Graph.setRenderTitle(false);
-        energyDensityArea3Graph.setScaleSynchronizer(energyDensityScaleSynchronizer);
-
         energyDensityScaleSynchronizer.addGraph(energyDensityArea0Graph);
         energyDensityScaleSynchronizer.addGraph(energyDensityArea1Graph);
-        energyDensityScaleSynchronizer.addGraph(energyDensityArea2Graph);
-        energyDensityScaleSynchronizer.addGraph(energyDensityArea3Graph);
 
         this.timeGraphs.add(energyDensityArea0Graph);
         this.timeGraphs.add(energyDensityArea1Graph);
-        this.timeGraphs.add(energyDensityArea2Graph);
-        this.timeGraphs.add(energyDensityArea3Graph);
 
         ScaleSynchronizer packScaleSynchronizer = new ScaleSynchronizer();
 
@@ -309,27 +244,11 @@ public class Observer {
         packArea1Graph.setRenderTitle(false);
         packArea1Graph.setScaleSynchronizer(packScaleSynchronizer);
 
-        TimeGraph packArea2Graph = new TimeGraph(graphDimX * 2, graphDimY, graphCapacity);
-        packArea2Graph.setTitle("");
-        packArea2Graph.setOrigin(configuration.Render.ORIGINX + configuration.Aviary.DEFX, 3 * graphDimY + 5);
-        packArea2Graph.setPlainCl(new Color(0, 0, 0, 0));
-        packArea2Graph.setBorderCl(new Color(100, 100, 100));
-        packArea2Graph.setDotCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        packArea2Graph.setLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        packArea2Graph.setLevelLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        packArea2Graph.setValueTextCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        packArea2Graph.setTextSize(8);
-        packArea2Graph.setRenderScale(false);
-        packArea2Graph.setRenderTitle(false);
-        packArea2Graph.setScaleSynchronizer(packScaleSynchronizer);
-
         packScaleSynchronizer.addGraph(packArea0Graph);
         packScaleSynchronizer.addGraph(packArea1Graph);
-        packScaleSynchronizer.addGraph(packArea2Graph);
 
         this.timeGraphs.add(packArea0Graph);
         this.timeGraphs.add(packArea1Graph);
-        this.timeGraphs.add(packArea2Graph);
 
         ScaleSynchronizer resourceScaleSynchronizer = new ScaleSynchronizer();
 
@@ -361,43 +280,11 @@ public class Observer {
         resourceArea1Graph.setRenderTitle(false);
         resourceArea1Graph.setScaleSynchronizer(resourceScaleSynchronizer);
 
-        TimeGraph resourceArea2Graph = new TimeGraph(graphDimX * 2, graphDimY, graphCapacity);
-        resourceArea2Graph.setTitle("");
-        resourceArea2Graph.setOrigin(configuration.Render.ORIGINX + configuration.Aviary.DEFX, 4 * graphDimY + 5);
-        resourceArea2Graph.setPlainCl(new Color(0, 0, 0, 0));
-        resourceArea2Graph.setBorderCl(new Color(100, 100, 100));
-        resourceArea2Graph.setDotCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        resourceArea2Graph.setLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        resourceArea2Graph.setLevelLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        resourceArea2Graph.setValueTextCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[2]);
-        resourceArea2Graph.setTextSize(8);
-        resourceArea2Graph.setRenderScale(false);
-        resourceArea2Graph.setRenderTitle(false);
-        resourceArea2Graph.setScaleSynchronizer(resourceScaleSynchronizer);
-
-        TimeGraph resourceArea3Graph = new TimeGraph(graphDimX * 2, graphDimY, graphCapacity);
-        resourceArea3Graph.setTitle("");
-        resourceArea3Graph.setOrigin(configuration.Render.ORIGINX + configuration.Aviary.DEFX, 4 * graphDimY + 5);
-        resourceArea3Graph.setPlainCl(new Color(0, 0, 0, 0));
-        resourceArea3Graph.setBorderCl(new Color(100, 100, 100));
-        resourceArea3Graph.setDotCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        resourceArea3Graph.setLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        resourceArea3Graph.setLevelLineCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        resourceArea3Graph.setValueTextCl(configuration.PropertyGrid.PROPERTY_AREA_COLORS[3]);
-        resourceArea3Graph.setTextSize(8);
-        resourceArea3Graph.setRenderScale(false);
-        resourceArea3Graph.setRenderTitle(false);
-        resourceArea3Graph.setScaleSynchronizer(resourceScaleSynchronizer);
-
         resourceScaleSynchronizer.addGraph(resourceArea0Graph);
         resourceScaleSynchronizer.addGraph(resourceArea1Graph);
-        resourceScaleSynchronizer.addGraph(resourceArea2Graph);
-        resourceScaleSynchronizer.addGraph(resourceArea3Graph);
 
         this.timeGraphs.add(resourceArea0Graph);
         this.timeGraphs.add(resourceArea1Graph);
-        this.timeGraphs.add(resourceArea2Graph);
-        this.timeGraphs.add(resourceArea3Graph);
     }
 
     void observeAviaryData() {
@@ -414,26 +301,17 @@ public class Observer {
             this.timeGraphs.get(0).addValue(aviaryReference.getPopulation());
             this.timeGraphs.get(1).addValue(aviaryData[0][0]);
             this.timeGraphs.get(2).addValue(aviaryData[0][1]);
-            this.timeGraphs.get(3).addValue(aviaryData[0][2]);
-            this.timeGraphs.get(4).addValue(aviaryData[0][3]);
 
             if (aviaryData[0][0] != 0) this.timeGraphs.get(5).addValue(aviaryData[1][0] / aviaryData[0][0]);
-            else this.timeGraphs.get(5).addValue(0);
+            else this.timeGraphs.get(3).addValue(0);
             if (aviaryData[0][1] != 0) this.timeGraphs.get(6).addValue(aviaryData[1][1] / aviaryData[0][1]);
-            else this.timeGraphs.get(6).addValue(0);
-            if (aviaryData[0][2] != 0) this.timeGraphs.get(7).addValue(aviaryData[1][2] / aviaryData[0][2]);
-            else this.timeGraphs.get(7).addValue(0);
-            if (aviaryData[0][3] != 0) this.timeGraphs.get(8).addValue(aviaryData[1][3] / aviaryData[0][3]);
-            else this.timeGraphs.get(8).addValue(0);
+            else this.timeGraphs.get(4).addValue(0);
 
-            this.timeGraphs.get(9).addValue(aviaryData[2][0]);
-            this.timeGraphs.get(10).addValue(aviaryData[2][1]);
-            this.timeGraphs.get(11).addValue(aviaryData[2][2]);
+            this.timeGraphs.get(5).addValue(aviaryData[2][0]);
+            this.timeGraphs.get(6).addValue(aviaryData[2][1]);
 
-            this.timeGraphs.get(12).addValue(aviaryData[3][0]);
-            this.timeGraphs.get(13).addValue(aviaryData[3][1]);
-            this.timeGraphs.get(14).addValue(aviaryData[3][2]);
-            this.timeGraphs.get(15).addValue(aviaryData[3][3]);
+            this.timeGraphs.get(7).addValue(aviaryData[3][0]);
+            this.timeGraphs.get(8).addValue(aviaryData[3][1]);
 
             resetTimeGraphCtr();
         }

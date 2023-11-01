@@ -5,7 +5,7 @@ import point.Point2D;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PropertyGrid<Property> {
+public class PropertyGrid4<Property> {
 
     private double defX;
     private double defY;
@@ -23,7 +23,7 @@ public class PropertyGrid<Property> {
     //--------------------------------------
 
 
-    public PropertyGrid() {
+    public PropertyGrid4() {
         this.defX = 0;
         this.defY = 0;
         this.grCtX = 0;
@@ -34,7 +34,7 @@ public class PropertyGrid<Property> {
         this.propertyAreas = null;
     }
 
-    public PropertyGrid(double defX, double defY) {
+    public PropertyGrid4(double defX, double defY) {
         this.defX = defX;
         this.defY = defY;
         this.grCtX = 2;

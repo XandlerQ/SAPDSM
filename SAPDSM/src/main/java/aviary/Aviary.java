@@ -20,7 +20,7 @@ public class Aviary {
     ResourceGroup resGroup;
     ResourceGrid resGrid;
     configuration.PropertyGrid.SHIFTINTERSECTIONMODES shiftIntersection;
-    PropertyGrid<Integer> propertyGrid;
+    PropertyGrid2<Integer> propertyGrid2;
     ArrayList<Agent> agents;
     ArrayList<Pack> packs;
     int tk = 0;
@@ -36,7 +36,7 @@ public class Aviary {
         this.resGroup = null;
         this.resGrid = null;
         this.shiftIntersection = configuration.PropertyGrid.SHIFTINTERSECTION;
-        this.propertyGrid = null;
+        this.propertyGrid2 = null;
         this.agents = null;
         this.packs = null;
         this.observer = null;
@@ -58,8 +58,8 @@ public class Aviary {
         return resGroup;
     }
 
-    public PropertyGrid<Integer> getPropertyGrid() {
-        return propertyGrid;
+    public PropertyGrid2<Integer> getPropertyGrid() {
+        return propertyGrid2;
     }
 
     public ArrayList<Agent> getAgents() {
@@ -89,33 +89,33 @@ public class Aviary {
     }
 
     public double[][] getDataInAreas() {
-        double areaData[][] = new double[4][4];
+        double areaData[][] = new double[4][2];
 
         for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 4; j++) {
+            for(int j = 0; j < 2; j++) {
                 areaData[i][j] = 0.;
             }
         }
 
         for(Iterator<Agent> iterator = this.agents.iterator(); iterator.hasNext();) {
             Agent agent = iterator.next();
-            areaData[0][this.propertyGrid.getPropertyAreaIndex(agent.getCoordinates())] += 1;
-            areaData[1][this.propertyGrid.getPropertyAreaIndex(agent.getCoordinates())] += agent.getEnergy();
+            areaData[0][this.propertyGrid2.getPropertyAreaIndex(agent.getCoordinates())] += 1;
+            areaData[1][this.propertyGrid2.getPropertyAreaIndex(agent.getCoordinates())] += agent.getEnergy();
         }
         for(Iterator<Pack> iterator = this.packs.iterator(); iterator.hasNext();) {
             Pack pack = iterator.next();
-            areaData[2][this.propertyGrid.getPropertyAreaIndex(pack.getPackCenter())] += 1;
+            areaData[2][this.propertyGrid2.getPropertyAreaIndex(pack.getPackCenter())] += 1;
         }
 
         if (configuration.Resource.RESTYPE == configuration.Resource.RESOURCETYPES.PLAIN && this.resGrid != null) {
-            double[] resourceInAreas = this.resGrid.getResourceInAreas(this.propertyGrid);
-            for (int i = 0; i < 4; i++) {
+            double[] resourceInAreas = this.resGrid.getResourceInAreas(this.propertyGrid2);
+            for (int i = 0; i < 2; i++) {
                 areaData[3][i] = resourceInAreas[i];
             }
         }
         else if (configuration.Resource.RESTYPE == configuration.Resource.RESOURCETYPES.DISCRETE && this.resGroup != null) {
-            double[] resourceInAreas = this.resGroup.getResourceInAreas(this.propertyGrid);
-            for (int i = 0; i < 4; i++) {
+            double[] resourceInAreas = this.resGroup.getResourceInAreas(this.propertyGrid2);
+            for (int i = 0; i < 2; i++) {
                 areaData[3][i] = resourceInAreas[i];
             }
         }
@@ -179,7 +179,7 @@ public class Aviary {
             int minDistIdx = -1;
             int idx = 0;
             for (ResourceNode res : resources) {
-                if (!res.empty() && this.propertyGrid.getPropertyAreaIndex(agent.getCoordinates()) == this.propertyGrid.getPropertyAreaIndex(res.getCoordinates())) {
+                if (!res.empty() && this.propertyGrid2.getPropertyAreaIndex(agent.getCoordinates()) == this.propertyGrid2.getPropertyAreaIndex(res.getCoordinates())) {
                     double currDist = agent.getDistanceTo(res.getCoordinates());
                     if (minDist > currDist) {
                         minDist = currDist;
@@ -247,7 +247,7 @@ public class Aviary {
         double packHunger = pack.getMedHunger();
         int conCount = agent.getConnectionCount();
         int extent = (int)(((double)conCount / configuration.PropertyGrid.PROPERTY_AREA_VALUES[0]) * configuration.Agent.GRADIENTREFINEMENT);
-        double resourceWithdrawn = this.resGrid.resourceWithdraw(agent.getCoordinates(), this.propertyGrid.getIntersection(), Math.min(packHunger, configuration.Aviary.TICKDELTATIME * configuration.Agent.RESOURCECOLLECTIONSPEED), extent);
+        double resourceWithdrawn = this.resGrid.resourceWithdraw(agent.getCoordinates(), this.propertyGrid2.getIntersection(), Math.min(packHunger, configuration.Aviary.TICKDELTATIME * configuration.Agent.RESOURCECOLLECTIONSPEED), extent);
         agent.collect(resourceWithdrawn);
     }
 
@@ -331,7 +331,7 @@ public class Aviary {
         else if (this.resType == configuration.Resource.RESOURCETYPES.PLAIN){
             double direction;
             if (configuration.PropertyGrid.LOCKEDAREAS) {
-                direction = this.resGrid.getGradientDirectionIntersection(agent, this.propertyGrid.getIntersection());
+                direction = this.resGrid.getGradientDirectionIntersection(agent, this.propertyGrid2.getIntersection());
             }
             else {
                 direction = this.resGrid.getGradientDirection(agent);
@@ -428,8 +428,8 @@ public class Aviary {
             if(ag != agent && ag.getSpecies() == agent.getSpecies()){    //Different agent, same species
                 double dist = agent.getDistanceTo(ag.getX(), ag.getY());
                 if(dist <= configuration.Agent.CONNECTDIST
-                        && (this.propertyGrid.getPropertyArea(agent.getCoordinates())
-                        == this.propertyGrid.getPropertyArea(ag.getCoordinates()))
+                        && (this.propertyGrid2.getPropertyArea(agent.getCoordinates())
+                        == this.propertyGrid2.getPropertyArea(ag.getCoordinates()))
                 ){
                     Pack agPack = getPack(ag);
                     if(agPack != null){
@@ -599,10 +599,10 @@ public class Aviary {
     //------Property calculations------
 
     void updateProperty(Agent agent) {
-        int propertyAreaIndex = this.propertyGrid.getPropertyAreaIndex(agent.getCoordinates());
-        PropertyArea propertyArea = this.propertyGrid.getPropertyArea(propertyAreaIndex);
+        int propertyAreaIndex = this.propertyGrid2.getPropertyAreaIndex(agent.getCoordinates());
+        PropertyArea propertyArea = this.propertyGrid2.getPropertyArea(propertyAreaIndex);
         if (agent.getPropertyArea() != propertyArea) {
-            int areaValence = this.propertyGrid.getProperty(agent.getCoordinates());
+            int areaValence = this.propertyGrid2.getProperty(agent.getCoordinates());
             removeAgentFromPacks(agent);
             agent.setValence(areaValence);
             agent.setPropertyArea(propertyArea);
@@ -628,21 +628,21 @@ public class Aviary {
     }
 
     void shiftIntersection() {
-        double areaData[][] = new double[3][4];
+        double areaData[][] = new double[3][2];
 
         for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 4; j++) {
+            for(int j = 0; j < 2; j++) {
                 areaData[i][j] = 0.;
             }
         }
 
         for(Iterator<Agent> iterator = this.agents.iterator(); iterator.hasNext();) {
             Agent agent = iterator.next();
-            areaData[0][this.propertyGrid.getPropertyAreaIndex(agent.getCoordinates())] += 1;
-            areaData[1][this.propertyGrid.getPropertyAreaIndex(agent.getCoordinates())] += agent.getEnergy();
+            areaData[0][this.propertyGrid2.getPropertyAreaIndex(agent.getCoordinates())] += 1;
+            areaData[1][this.propertyGrid2.getPropertyAreaIndex(agent.getCoordinates())] += agent.getEnergy();
         }
 
-        for(int j = 0; j < 4; j++) {
+        for(int j = 0; j < 2; j++) {
             if(areaData[0][j] != 0) areaData[2][j] = areaData[1][j] / areaData[0][j];
             else areaData[2][j] = 0;
         }
@@ -653,33 +653,27 @@ public class Aviary {
         switch (this.shiftIntersection) {
             case POPULATION -> {
                 //(double)App.DEFX / 10 + 0.8 *
-                if (areaData[0][0] + areaData[0][1] + areaData[0][2] + areaData[0][3] != 0) {
-                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[0][0] + areaData[0][1]) / (areaData[0][0] + areaData[0][1] + areaData[0][2] + areaData[0][3]);
-                    intersectionY = (double)configuration.Aviary.DEFY * (areaData[0][0] + areaData[0][2]) / (areaData[0][0] + areaData[0][1] + areaData[0][2] + areaData[0][3]);
+                if (areaData[0][0] + areaData[0][1] != 0) {
+                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[0][0]) / (areaData[0][0] + areaData[0][1]);
                 }
             }
             case ENERGY -> {
-                if (areaData[1][0] + areaData[1][1] + areaData[1][2] + areaData[1][3] != 0) {
-                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[1][0] + areaData[1][1]) / (areaData[1][0] + areaData[1][1] + areaData[1][2] + areaData[1][3]);
-                    intersectionY = (double)configuration.Aviary.DEFY * (areaData[1][0] + areaData[1][2]) / (areaData[1][0] + areaData[1][1] + areaData[1][2] + areaData[1][3]);
+                if (areaData[1][0] + areaData[1][1] != 0) {
+                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[1][0]) / (areaData[1][0] + areaData[1][1]);
                 }
             }
             case ENERGYDENSITY -> {
-                if (areaData[2][0] + areaData[2][1] + areaData[2][2] + areaData[2][3] != 0) {
-                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[2][0] + areaData[2][1]) / (areaData[2][0] + areaData[2][1] + areaData[2][2] + areaData[2][3]);
-                    intersectionY = (double)configuration.Aviary.DEFY * (areaData[2][0] + areaData[2][2]) / (areaData[2][0] + areaData[2][1] + areaData[2][2] + areaData[2][3]);
+                if (areaData[2][0] + areaData[2][1] != 0) {
+                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[2][0]) / (areaData[2][0] + areaData[2][1]);
                 }
             }
         }
 
-        Point2D intersection = new Point2D();
-
         double speed = 0.03;
 
-        intersection.setX(this.propertyGrid.getIntersection().getX() + (intersectionX - this.propertyGrid.getIntersection().getX()) * speed);
-        intersection.setY(this.propertyGrid.getIntersection().getY() + (intersectionY - this.propertyGrid.getIntersection().getY()) * speed);
+        double intersection = this.propertyGrid2.getIntersection() + (intersectionX - this.propertyGrid2.getIntersection()) * speed;
 
-        this.propertyGrid.setIntersection(intersection);
+        this.propertyGrid2.setIntersection(intersection);
     }
 
     //---------------Main---------------
@@ -689,8 +683,8 @@ public class Aviary {
         if(this.resType == configuration.Resource.RESOURCETYPES.DISCRETE) this.resGroup = Builder.buildResourceGroup();
         if(this.resType == configuration.Resource.RESOURCETYPES.PLAIN) this.resGrid = Builder.buildResourceGrid();
 
-        this.propertyGrid = new PropertyGrid<>(configuration.Aviary.DEFX, configuration.Aviary.DEFY);
-        this.propertyGrid.fillPropertyAreas(configuration.PropertyGrid.PROPERTY_AREA_VALUES, configuration.PropertyGrid.PROPERTY_AREA_COLORS);
+        this.propertyGrid2 = new PropertyGrid2<>(configuration.Aviary.DEFX, configuration.Aviary.DEFY);
+        this.propertyGrid2.fillPropertyAreas(configuration.PropertyGrid.PROPERTY_AREA_VALUES, configuration.PropertyGrid.PROPERTY_AREA_COLORS);
 
         this.agents = Builder.buildAgentArray();
 
@@ -795,14 +789,11 @@ public class Aviary {
     }
 
     boolean endPredicate() {
-        Point2D intersection = this.propertyGrid.getIntersection();
-        double x = intersection.getX();
-        double y = intersection.getY();
+        double intersection = this.propertyGrid2.getIntersection();
+        double x = intersection;
         return this.observer.getReportRowCtr() >= 600
-                || (x <= 0.00001 && y <= 0.00001)
-                || (x <= 0.00001 && y >= configuration.Aviary.DEFY - 0.00001)
-                || (x >= configuration.Aviary.DEFX - 0.00001 && y <= 0.00001)
-                || (x >= configuration.Aviary.DEFX - 0.00001 && y >= configuration.Aviary.DEFY - 0.00001)
+                || (x <= 0.00001)
+                || (x >= configuration.Aviary.DEFX - 0.00001)
                 || (getPopulation() <= 0);
     }
 
@@ -837,7 +828,7 @@ public class Aviary {
         if(this.resGrid != null) this.resGrid.render();
     }
 
-    void renderPropertyGrid() { this.propertyGrid.render(); }
+    void renderPropertyGrid() { this.propertyGrid2.render(); }
 
     void renderPacks(){
         packs.forEach(Pack::render);

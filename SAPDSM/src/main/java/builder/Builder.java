@@ -22,19 +22,12 @@ public class Builder {
             }
         }
         else {
-            int agentsPerRegion1 = configuration.Aviary.INITAGENTAMOUNT1 / 4;
-            int agentsPerRegion2 = configuration.Aviary.INITAGENTAMOUNT2 / 4;
+            int agentsPerRegion1 = configuration.Aviary.INITAGENTAMOUNT1 / 2;
             for (int i = 0; i < agentsPerRegion1; i++) {
-                agents.add(buildAgent(0, 0, 0, configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
+                agents.add(buildAgent(0, 0, 0, configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY));
             }
             for (int i = 0; i < agentsPerRegion1; i++) {
-                agents.add(buildAgent(0, 0, configuration.Aviary.DEFY / 2., configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
-            }
-            for (int i = 0; i < agentsPerRegion1; i++) {
-                agents.add(buildAgent(0, configuration.Aviary.DEFX / 2., 0, configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
-            }
-            for (int i = 0; i < agentsPerRegion1; i++) {
-                agents.add(buildAgent(0, configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2., configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
+                agents.add(buildAgent(0, configuration.Aviary.DEFX / 2., 0, configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY));
             }
         }
 

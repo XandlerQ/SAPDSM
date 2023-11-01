@@ -6,7 +6,7 @@ public class PropertyGrid {
     public enum SHIFTINTERSECTIONMODES { ////////////////////////////////////////////////////////////////////
         STATIC, POPULATION, ENERGY, ENERGYDENSITY
     }
-    public static SHIFTINTERSECTIONMODES SHIFTINTERSECTION = SHIFTINTERSECTIONMODES.POPULATION;
+    public static SHIFTINTERSECTIONMODES SHIFTINTERSECTION = SHIFTINTERSECTIONMODES.ENERGY;
     public static Color[] PROPERTY_AREA_COLORS = {
             new Color(255, 134, 125),
             new Color(250, 236, 127),

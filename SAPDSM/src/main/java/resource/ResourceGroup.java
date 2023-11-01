@@ -124,7 +124,7 @@ public class ResourceGroup {
     //-----------  Methods  -----------
     //---------------------------------
 
-    public double[] getResourceInAreas(PropertyGrid propertyGrid) {
+    public double[] getResourceInAreas(PropertyGrid4 propertyGrid4) {
         double[] resourceInAres = new double[4];
 
         for (int i = 0; i < 4; i++) {
@@ -132,7 +132,21 @@ public class ResourceGroup {
         }
 
         for (ResourceNode resourceNode : this.resNodes) {
-            resourceInAres[propertyGrid.getPropertyAreaIndex(resourceNode.getCoordinates())] += resourceNode.getResource();
+            resourceInAres[propertyGrid4.getPropertyAreaIndex(resourceNode.getCoordinates())] += resourceNode.getResource();
+        }
+
+        return resourceInAres;
+    }
+
+    public double[] getResourceInAreas(PropertyGrid2 propertyGrid2) {
+        double[] resourceInAres = new double[2];
+
+        for (int i = 0; i < 2; i++) {
+            resourceInAres[i] = 0;
+        }
+
+        for (ResourceNode resourceNode : this.resNodes) {
+            resourceInAres[propertyGrid2.getPropertyAreaIndex(resourceNode.getCoordinates())] += resourceNode.getResource();
         }
 
         return resourceInAres;

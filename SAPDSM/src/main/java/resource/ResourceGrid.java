@@ -123,7 +123,7 @@ public class ResourceGrid {
         this.resources.forEach((res) -> {res.replenish(deltaTime);});
     }
 
-    public double getGradientDirectionIntersection(Agent agent, Point2D intersection) {
+    public double getGradientDirectionIntersection(Agent agent, double intersection) {
         double gradientDirection;
 
         double sideX = this.defX / this.grCtX;
@@ -135,18 +135,15 @@ public class ResourceGrid {
         int iDot = (int)(x / sideX);
         int jDot = (int)(y / sideY);
 
-        int iIntersection = (int)(intersection.getX() / sideX);
-        int jIntersection = (int)(intersection.getY() / sideY);
+        int iIntersection = (int)(intersection / sideX);
 
         int areaIndex;
 
-        if (agent.getX() <= intersection.getX()) {
-            if (agent.getY() <= intersection.getY()) areaIndex = 0;
-            else areaIndex = 1;
+        if (agent.getX() <= intersection) {
+            areaIndex = 0;
         }
         else {
-            if (agent.getY() <= intersection.getY()) areaIndex = 2;
-            else areaIndex = 3;
+            areaIndex = 1;
         }
 
         int iSpan = configuration.Agent.GRADIENTREFINEMENT;
@@ -163,25 +160,11 @@ public class ResourceGrid {
                 jOrigin = Math.max(0, jDot - jSpan);
 
                 iTarget = Math.min(iDot + iSpan, iIntersection - 1);
-                jTarget = Math.min(jDot + jSpan, jIntersection - 1);
-            }
-            case 1 -> {
-                iOrigin = Math.max(0, iDot - iSpan);
-                jOrigin = Math.max(jIntersection + 1, jDot - jSpan);
-
-                iTarget = Math.min(iDot + iSpan, iIntersection - 1);
                 jTarget = Math.min(jDot + jSpan, this.grCtY - 1);
             }
-            case 2 -> {
+            case 1 -> {
                 iOrigin = Math.max(iIntersection + 1, iDot - iSpan);
                 jOrigin = Math.max(0, jDot - jSpan);
-
-                iTarget = Math.min(iDot + iSpan, this.grCtX - 1);
-                jTarget = Math.min(jDot + jSpan, jIntersection - 1);
-            }
-            case 3 -> {
-                iOrigin = Math.max(iIntersection + 1, iDot - iSpan);
-                jOrigin = Math.max(jIntersection + 1, jDot - jSpan);
 
                 iTarget = Math.min(iDot + iSpan, this.grCtX - 1);
                 jTarget = Math.min(jDot + jSpan, this.grCtY - 1);
@@ -310,7 +293,7 @@ public class ResourceGrid {
         return gradientDirection;
     }
 
-    public double[] getResourceInAreas(PropertyGrid propertyGrid) {
+    public double[] getResourceInAreas(PropertyGrid4 propertyGrid4) {
         double[] resourceInAres = new double[4];
 
         for (int i = 0; i < 4; i++) {
@@ -332,7 +315,37 @@ public class ResourceGrid {
             double centerX = originX + sideX / 2;
             double centerY = originY + sideY / 2;
 
-            resourceInAres[propertyGrid.getPropertyAreaIndex(centerX, centerY)] += resource.getResource();
+            resourceInAres[propertyGrid4.getPropertyAreaIndex(centerX, centerY)] += resource.getResource();
+
+            index++;
+        }
+
+        return resourceInAres;
+    }
+
+    public double[] getResourceInAreas(PropertyGrid2 propertyGrid2) {
+        double[] resourceInAres = new double[2];
+
+        for (int i = 0; i < 2; i++) {
+            resourceInAres[i] = 0;
+        }
+
+        double sideX = this.defX / this.grCtX;
+        double sideY = this.defY / this.grCtY;
+        int index = 0;
+        for (Iterator<Resource> iterator = this.resources.iterator(); iterator.hasNext();) {
+            Resource resource = iterator.next();
+
+            int j = index % this.grCtY;
+            int i = (index - j) / this.grCtY;
+
+            double originX = i * sideX;
+            double originY = j * sideY;
+
+            double centerX = originX + sideX / 2;
+            double centerY = originY + sideY / 2;
+
+            resourceInAres[propertyGrid2.getPropertyAreaIndex(centerX, centerY)] += resource.getResource();
 
             index++;
         }
@@ -354,7 +367,7 @@ public class ResourceGrid {
         return resource.lowerRes(amount);
     }
 
-    public double resourceWithdraw(Point2D dot, Point2D intersection, double amount, int extent) {
+    public double resourceWithdraw(Point2D dot, double intersection, double amount, int extent) {
 
         if (extent == 0) {
             return resourceWithdraw(dot, amount);
@@ -369,18 +382,15 @@ public class ResourceGrid {
         int iDot = (int)((x - x % sideX) / sideX);
         int jDot = (int)((y - y % sideY) / sideY);
 
-        int iIntersection = (int)(intersection.getX() / sideX);
-        int jIntersection = (int)(intersection.getY() / sideY);
+        int iIntersection = (int)(intersection / sideX);
 
         int areaIndex;
 
-        if (dot.getX() <= intersection.getX()) {
-            if (dot.getY() <= intersection.getY()) areaIndex = 0;
-            else areaIndex = 1;
+        if (dot.getX() <= intersection) {
+            areaIndex = 0;
         }
         else {
-            if (dot.getY() <= intersection.getY()) areaIndex = 2;
-            else areaIndex = 3;
+            areaIndex = 1;
         }
 
         int iOrigin = 0,
@@ -394,25 +404,11 @@ public class ResourceGrid {
                 jOrigin = Math.max(0, jDot - extent);
 
                 iTarget = Math.min(iDot + extent, iIntersection - 1);
-                jTarget = Math.min(jDot + extent, jIntersection - 1);
-            }
-            case 1 -> {
-                iOrigin = Math.max(0, iDot - extent);
-                jOrigin = Math.max(jIntersection + 1, jDot - extent);
-
-                iTarget = Math.min(iDot + extent, iIntersection - 1);
                 jTarget = Math.min(jDot + extent, this.grCtY - 1);
             }
-            case 2 -> {
+            case 1 -> {
                 iOrigin = Math.max(iIntersection + 1, iDot - extent);
                 jOrigin = Math.max(0, jDot - extent);
-
-                iTarget = Math.min(iDot + extent, this.grCtX - 1);
-                jTarget = Math.min(jDot + extent, jIntersection - 1);
-            }
-            case 3 -> {
-                iOrigin = Math.max(iIntersection + 1, iDot - extent);
-                jOrigin = Math.max(jIntersection + 1, jDot - extent);
 
                 iTarget = Math.min(iDot + extent, this.grCtX - 1);
                 jTarget = Math.min(jDot + extent, this.grCtY - 1);
