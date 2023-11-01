@@ -116,14 +116,14 @@ public class Pack {
             Agent ag = iter.next();
             if(!ag.topCon()
                     && !argAg.topCon()
-                    && argAg.getDistTo(ag.getX(), ag.getY()) <= configuration.Agent.CONNECTDIST + 10){
+                    && argAg.getDistanceTo(ag.getX(), ag.getY()) <= configuration.Agent.CONNECTDIST + 10){
                 everConnected = true;
                 Connection newCon = new Connection(argAg, ag);
                 if(!connections.contains(newCon))
                     connections.add(newCon);
                 //println("added connection, total connection amount for this pack: ", connections.size());
-                argAg.addCon();
-                ag.addCon();
+                argAg.addConnection();
+                ag.addConnection();
                 if(argAg.topCon())
                     break;
             }
@@ -147,10 +147,10 @@ public class Pack {
             if(con.contains(argAg)){
                 //println("found a connection to delete");
                 agToConnect.add(con.pairOf(argAg));
-                con.pairOf(argAg).removeCon();
+                con.pairOf(argAg).removeConnection();
                 iterator.remove();
                 connectionsFound++;
-                if(connectionsFound == argAg.getConCount())
+                if(connectionsFound == argAg.getConnectionCount())
                     break;
             }
         }
@@ -172,8 +172,8 @@ public class Pack {
                         && !ag2.topCon()
                         && !this.connections.contains(newCon)){
                     this.connections.add(newCon);
-                    ag1.addCon();
-                    ag2.addCon();
+                    ag1.addConnection();
+                    ag2.addConnection();
                 }
             }
         }
@@ -204,7 +204,7 @@ public class Pack {
         int agCount = agents.size();
         for(Iterator<Agent> iter = this.agents.iterator(); iter.hasNext();){
             Agent ag = iter.next();
-            resToDistr += ag.getCollectedRes();
+            resToDistr += ag.getCollectedResource();
         }
 
         double deal = resToDistr/agCount;
@@ -251,13 +251,13 @@ public class Pack {
         return hunger / agCount;
     }
 
-    public void energyDepletion(){
+    public void energyDepletion(double deltaTime){
         for (Iterator<Connection> iter = this.connections.iterator(); iter.hasNext();){
             Connection con = iter.next();
             Agent ag1 = con.getFirst();
             Agent ag2 = con.getSecond();
-            ag1.addToEnergy(-configuration.Agent.NRGFORCONPERSTEP);
-            ag2.addToEnergy(-configuration.Agent.NRGFORCONPERSTEP);
+            ag1.addToEnergy(-deltaTime * configuration.Agent.CONNECTIONENERGYDEPLETIONSPEED);
+            ag2.addToEnergy(-deltaTime * configuration.Agent.CONNECTIONENERGYDEPLETIONSPEED);
         }
     }
 

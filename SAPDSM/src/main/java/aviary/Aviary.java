@@ -50,11 +50,11 @@ public class Aviary {
     //---------------------------------
 
 
-    public Color getRivalryCl() {
+    public Color getRivalryColor() {
         return rivalryCl;
     }
 
-    public ResourceGroup getResGroup() {
+    public ResourceGroup getResourceGroup() {
         return resGroup;
     }
 
@@ -74,7 +74,7 @@ public class Aviary {
 
     Pack getPack(Agent agent){
 
-        if(agent.getConCount() == 0) return null;
+        if(agent.getConnectionCount() == 0) return null;
 
         for (Pack pck : packs) {
             if (pck.contains(agent)) {
@@ -142,14 +142,14 @@ public class Aviary {
 
     void removeAgentFromPacks(Agent agent){
         //int at = 0;
-        for (Iterator<Pack> iter = packs.iterator(); iter.hasNext();){
-            Pack pack = iter.next();
+        for (Iterator<Pack> iterator = packs.iterator(); iterator.hasNext();){
+            Pack pack = iterator.next();
             if(pack.contains(agent)){
                 //println("PACK IDX", at, "CONTAINED THIS AGENT, REMOVING AGENT FROM THIS PACK");
                 pack.removeAgent(agent);
                 if(pack.empty()){
                     //println("PACK TURNED OUT TO BE EMPTY, REMOVING THE WHOLE PACK");
-                    iter.remove();
+                    iterator.remove();
                 }
                 break;
             }
@@ -162,27 +162,26 @@ public class Aviary {
 
     void agResourceLocking(Agent agent){
 
-        ResourceNode lockedRes = agent.getLockedRes();
+        ResourceNode lockedRes = agent.getLockedResourceNode();
 
         if(lockedRes != null){
-            if(lockedRes.empty() || agent.getDistTo(lockedRes.getCoordinates()) > configuration.Agent.VISUALDIST){
-                agent.setLockedRes(null);
+            if(lockedRes.empty() || agent.getDistanceTo(lockedRes.getCoordinates()) > configuration.Agent.VISUALDIST){
+                agent.setLockedResourceNode(null);
                 agent.setStationary(false);
             }
         }
         else{
-            if(agent.getConCount() == 0 && agent.wellFedLone()){
+            if(agent.getConnectionCount() == 0 && agent.wellFedLone()){
                 return;
             }
             ArrayList<ResourceNode> resources = resGroup.getVisibleResNodes(agent.getX(), agent.getY(), configuration.Agent.VISUALDIST);
-            double minDist = agent.getDistTo(resources.get(0).getCoordinates()) + 1;
+            double minDist = agent.getDistanceTo(resources.get(0).getCoordinates()) + 1;
             int minDistIdx = -1;
             int idx = 0;
-            for(Iterator<ResourceNode> iter = resources.iterator(); iter.hasNext();){
-                ResourceNode res = iter.next();
-                if(!res.empty() && this.propertyGrid.getPropertyAreaIndex(agent.getCoordinates()) == this.propertyGrid.getPropertyAreaIndex(res.getCoordinates())) {
-                    double currDist = agent.getDistTo(res.getCoordinates());
-                    if(minDist > currDist){
+            for (ResourceNode res : resources) {
+                if (!res.empty() && this.propertyGrid.getPropertyAreaIndex(agent.getCoordinates()) == this.propertyGrid.getPropertyAreaIndex(res.getCoordinates())) {
+                    double currDist = agent.getDistanceTo(res.getCoordinates());
+                    if (minDist > currDist) {
                         minDist = currDist;
                         minDistIdx = idx;
                     }
@@ -192,38 +191,38 @@ public class Aviary {
             if(minDistIdx != -1){
                 if(minDist <= configuration.Agent.VISUALDIST){
                     ResourceNode foundRes = resources.get(minDistIdx);
-                    agent.setLockedRes(foundRes);
+                    agent.setLockedResourceNode(foundRes);
                     return;
                 }
             }
-            agent.setLockedRes(null);
+            agent.setLockedResourceNode(null);
             agent.setStationary(false);
         }
     }
 
     void agResCollection(Agent agent){
         if (this.resType == configuration.Resource.RESOURCETYPES.DISCRETE) {
-            ResourceNode lockedRes = agent.getLockedRes();
+            ResourceNode lockedRes = agent.getLockedResourceNode();
             if (lockedRes == null) {
                 agent.setStationary(false);
                 return;
             }
-            double dist = agent.getDistTo(lockedRes.getCoordinates());
+            double dist = agent.getDistanceTo(lockedRes.getCoordinates());
             if (dist <= lockedRes.getSize() + 4) {
-                if (agent.getConCount() == 0) {
+                if (agent.getConnectionCount() == 0) {
                     double hunger = agent.getHunger();
                     if (hunger == 0) {
-                        agent.setLockedRes(null);
+                        agent.setLockedResourceNode(null);
                         agent.setStationary(false);
                     } else {
-                        agent.collect(lockedRes.lowerRes(Math.min(hunger, configuration.Agent.RESECOLLECTEDPERSTEP)));
+                        agent.collect(lockedRes.lowerRes(Math.min(hunger, configuration.Aviary.TICKDELTATIME * configuration.Agent.RESOURCECOLLECTIONSPEED)));
                         agent.setStationary(true);
                     }
                 } else {
                     Pack pack = getPack(agent);
                     if (pack != null) {
                         double packHunger = getPack(agent).getMedHunger();
-                        agent.collect(lockedRes.lowerRes(Math.min(packHunger, configuration.Agent.RESECOLLECTEDPERSTEP)));
+                        agent.collect(lockedRes.lowerRes(Math.min(packHunger, configuration.Aviary.TICKDELTATIME * configuration.Agent.RESOURCECOLLECTIONSPEED)));
                         agent.setStationary(true);
                     }
                 }
@@ -232,9 +231,9 @@ public class Aviary {
             }
         }
         else {
-            if (agent.getConCount() == 0) {
+            if (agent.getConnectionCount() == 0) {
                 double hunger = agent.getHunger();
-                agent.collect(this.resGrid.resourceWithdraw(agent.getCoordinates(), Math.min(hunger, configuration.Agent.RESECOLLECTEDPERSTEP)));
+                agent.collect(this.resGrid.resourceWithdraw(agent.getCoordinates(), Math.min(hunger, configuration.Aviary.TICKDELTATIME * configuration.Agent.RESOURCECOLLECTIONSPEED)));
             }
             else {
                 packResCollection(agent);
@@ -246,9 +245,9 @@ public class Aviary {
         Pack pack = getPack(agent);
         if(pack == null) return;
         double packHunger = pack.getMedHunger();
-        int conCount = agent.getConCount();
+        int conCount = agent.getConnectionCount();
         int extent = (int)(((double)conCount / configuration.PropertyGrid.PROPERTY_AREA_VALUES[0]) * configuration.Agent.GRADIENTREFINEMENT);
-        double resourceWithdrawn = this.resGrid.resourceWithdraw(agent.getCoordinates(), this.propertyGrid.getIntersection(), Math.min(packHunger, configuration.Agent.RESECOLLECTEDPERSTEP), extent);
+        double resourceWithdrawn = this.resGrid.resourceWithdraw(agent.getCoordinates(), this.propertyGrid.getIntersection(), Math.min(packHunger, configuration.Aviary.TICKDELTATIME * configuration.Agent.RESOURCECOLLECTIONSPEED), extent);
         agent.collect(resourceWithdrawn);
     }
 
@@ -263,7 +262,7 @@ public class Aviary {
             ArrayList<Double> dirs = new ArrayList<>(conAg.size());
             for(Iterator<Agent> iter = conAg.iterator(); iter.hasNext();) {
                 Agent ag = iter.next();
-                if(agent.getDistTo(ag.getX(), ag.getY()) > configuration.Agent.PACKDIST)
+                if(agent.getDistanceTo(ag.getX(), ag.getY()) > configuration.Agent.PACKDIST)
                     dirs.add(agent.dirToFace(ag.getX(), ag.getY()));
             }
             double resDir = angle.Angle.directionAddition(dirs);
@@ -282,7 +281,7 @@ public class Aviary {
             ArrayList<Double> dirs = new ArrayList<>(conAg.size());
             for (Iterator<Agent> iter = conAg.iterator(); iter.hasNext();) {
                 Agent ag = iter.next();
-                if(agent.getDistTo(ag.getX(), ag.getY()) < configuration.Agent.COMDIST)
+                if(agent.getDistanceTo(ag.getX(), ag.getY()) < configuration.Agent.COMDIST)
                     dirs.add(agent.dirToFace(ag.getX(), ag.getY()));
             }
             double resDir = angle.Angle.directionAddition(dirs);
@@ -299,7 +298,7 @@ public class Aviary {
 
     Pack getSameSpeciesClosestUncomPack(Agent agent){
         Pack packTooClose = null;
-        double minDist = configuration.Render.DEFX;
+        double minDist = configuration.Aviary.DEFX;
         Pack argPack = getPack(agent);
         if(argPack == null)
             return null;
@@ -308,7 +307,7 @@ public class Aviary {
             Pack pack = iter.next();
             if(!(argPack == pack) && pack.getPackSpecies() == agent.getSpecies()){
                 Point2D packCoordinates = pack.getPackCenter();
-                double distance = agent.getDistTo(packCoordinates);
+                double distance = agent.getDistanceTo(packCoordinates);
                 if (minDist > distance && distance < configuration.Agent.PACKCOMDIST){
                     minDist = distance;
                     packTooClose = pack;
@@ -322,8 +321,8 @@ public class Aviary {
 
     double foodDirectionDecision(Agent agent){
         if (this.resType == configuration.Resource.RESOURCETYPES.DISCRETE) {
-            if (agent.getLockedRes() != null) {
-                return agent.dirToFace(agent.getLockedRes().getCoordinates());
+            if (agent.getLockedResourceNode() != null) {
+                return agent.dirToFace(agent.getLockedResourceNode().getCoordinates());
             }
             else {
                 return -1;
@@ -351,7 +350,7 @@ public class Aviary {
         double packDirClose = getPackDirClose(agent);
         double packDirFar = getPackDirFar(agent);
 
-        if(agent.getConCount() == 0){
+        if(agent.getConnectionCount() == 0){
             if (this.resType == configuration.Resource.RESOURCETYPES.DISCRETE) agResourceLocking(agent);
             double foodDir = foodDirectionDecision(agent);
             if(foodDir != -1){
@@ -409,13 +408,13 @@ public class Aviary {
     //-------------Screams-------------
 
     void scream(Agent agent){
-        if(agent.getConCount() == 0 && agent.wellFed() && agent.getLockedRes() == null && agent.readyToAct()){
+        if(agent.getConnectionCount() == 0 && agent.wellFed() && agent.getLockedResourceNode() == null && agent.readyToAct()){
             loneAgentConnectionListen(agent);
         }
-        if(agent.getConCount() == 0 && agent.getLockedRes() != null && configuration.Agent.LONERESSCREAM && this.resType == configuration.Resource.RESOURCETYPES.DISCRETE){
+        if(agent.getConnectionCount() == 0 && agent.getLockedResourceNode() != null && configuration.Agent.LONERESSCREAM && this.resType == configuration.Resource.RESOURCETYPES.DISCRETE){
             loneAgentResScream(agent);
         }
-        if(agent.getConCount() != 0){
+        if(agent.getConnectionCount() != 0){
             packAgentResListen(agent);
         }
     }
@@ -427,7 +426,7 @@ public class Aviary {
         for(Iterator<Agent> iter = agents.iterator(); iter.hasNext();){
             Agent ag = iter.next();
             if(ag != agent && ag.getSpecies() == agent.getSpecies()){    //Different agent, same species
-                double dist = agent.getDistTo(ag.getX(), ag.getY());
+                double dist = agent.getDistanceTo(ag.getX(), ag.getY());
                 if(dist <= configuration.Agent.CONNECTDIST
                         && (this.propertyGrid.getPropertyArea(agent.getCoordinates())
                         == this.propertyGrid.getPropertyArea(ag.getCoordinates()))
@@ -457,9 +456,9 @@ public class Aviary {
     void loneAgentResScream(Agent agent){
         for(Iterator<Agent> iter = agents.iterator(); iter.hasNext();){
             Agent ag = iter.next();
-            double distance = agent.getDistTo(ag.getX(), ag.getY());
-            if(ag.getLockedRes() == null
-                    && ag.getConCount() == 0
+            double distance = agent.getDistanceTo(ag.getX(), ag.getY());
+            if(ag.getLockedResourceNode() == null
+                    && ag.getConnectionCount() == 0
                     && ag.getSpecies() == agent.getSpecies()
                     && distance < configuration.Agent.SCRHEARDIST){
                 if(ag.getValence() == 0){
@@ -481,18 +480,18 @@ public class Aviary {
         ArrayList<Agent> connAg = argPack.getConnected(agent);
         if (configuration.Resource.RESTYPE == configuration.Resource.RESOURCETYPES.DISCRETE) {
             connAg.forEach((ag) -> {
-                if (ag.getLockedRes() != null) {
-                    if (agent.getLockedRes() == null) {
+                if (ag.getLockedResourceNode() != null) {
+                    if (agent.getLockedResourceNode() == null) {
                         if (agent.getLastHeardAge() < ag.getAge()) {
                             agent.face(ag.getCoordinates());
                             agent.setLastHeardAge(ag.getAge());
                         }
                     } else {
-                        if (agent.getLockedRes() != ag.getLockedRes()) {
+                        if (agent.getLockedResourceNode() != ag.getLockedResourceNode()) {
                             if (agent.getAge() < ag.getAge()) {
                                 if (agent.getLastHeardAge() < ag.getAge()) {
                                     agent.setLastHeardAge(ag.getAge());
-                                    agent.setLockedRes(null);
+                                    agent.setLockedResourceNode(null);
                                     agent.setStationary(false);
                                     agent.face(ag.getCoordinates());
                                 }
@@ -508,8 +507,8 @@ public class Aviary {
 
     void fight(Agent agent1, Agent agent2){
 
-        double coef1 = agent1.getConCount() + 1;
-        double coef2 = agent2.getConCount() + 1;
+        double coef1 = agent1.getConnectionCount() + 1;
+        double coef2 = agent2.getConnectionCount() + 1;
 
         ArrayList<Agent> connected1 = null;
         ArrayList<Agent> connected2 = null;
@@ -522,12 +521,12 @@ public class Aviary {
             connected2 = getPack(agent2).getConnected(agent2);
         }
 
-        agent1.addToEnergy(-configuration.Agent.NRGPERFIGHT / coef1);
-        agent2.addToEnergy(-configuration.Agent.NRGPERFIGHT / coef2);
+        agent1.addToEnergy(-configuration.Aviary.TICKDELTATIME * configuration.Agent.FIGHTENERGYDRAINSPEED / coef1);
+        agent2.addToEnergy(-configuration.Aviary.TICKDELTATIME * configuration.Agent.FIGHTENERGYDRAINSPEED / coef2);
 
         if(connected1 != null){
             connected1.forEach((ag) -> {
-                ag.addToEnergy(-configuration.Agent.NRGPERFIGHT / coef1);
+                ag.addToEnergy(-configuration.Aviary.TICKDELTATIME * configuration.Agent.FIGHTENERGYDRAINSPEED / coef1);
                 app.App.processingRef.stroke(rivalryCl.getRGB(),100);
                 app.App.processingRef.strokeWeight(2);
                 app.App.processingRef.circle((float)ag.getX(), (float)ag.getY(), 5);
@@ -535,7 +534,7 @@ public class Aviary {
         }
         if(connected2 != null){
             connected2.forEach((ag) -> {
-                ag.addToEnergy(-configuration.Agent.NRGPERFIGHT / coef2);
+                ag.addToEnergy(-configuration.Aviary.TICKDELTATIME * configuration.Agent.FIGHTENERGYDRAINSPEED / coef2);
                 app.App.processingRef.stroke(rivalryCl.getRGB(),100);
                 app.App.processingRef.strokeWeight(2);
                 app.App.processingRef.circle((float)ag.getX(), (float)ag.getY(), 5);
@@ -548,11 +547,9 @@ public class Aviary {
     }
 
     void fights(){
-        for(Iterator<Agent> iter1 = agents.iterator(); iter1.hasNext();){
-            Agent ag1 = iter1.next();
-            for(Iterator<Agent> iter2 = agents.iterator(); iter2.hasNext();){
-                Agent ag2 = iter2.next();
-                if(ag1.getSpecies() != ag2.getSpecies() && ag1.getDistTo(ag2.getX(), ag2.getY()) <= configuration.Agent.FIGHTDIST){
+        for (Agent ag1 : agents) {
+            for (Agent ag2 : agents) {
+                if (ag1.getSpecies() != ag2.getSpecies() && ag1.getDistanceTo(ag2.getX(), ag2.getY()) <= configuration.Agent.FIGHTDIST) {
                     fight(ag1, ag2);
                 }
             }
@@ -567,17 +564,17 @@ public class Aviary {
         double tech = r.nextDouble();
 
         if(argAg.getSpecies() == 0){
-            if(tech <= configuration.Agent.REPRODUCTPROB1)
+            if(tech <= configuration.Aviary.TICKDELTATIME * configuration.Agent.REPRODUCTPROB1)
                 rep = true;
         }
         else{
-            if(tech <= configuration.Agent.REPRODUCTPROB2)
+            if(tech <= configuration.Aviary.TICKDELTATIME * configuration.Agent.REPRODUCTPROB2)
                 rep = true;
         }
 
         if(rep){
 
-            Agent child = Builder.buildAgent(argAg.getSpecies(), 0, 0, configuration.Render.DEFX, configuration.Render.DEFY);
+            Agent child = Builder.buildAgent(argAg.getSpecies(), 0, 0, configuration.Aviary.DEFX, configuration.Aviary.DEFY);
             child.setCoordinates(new Point2D(argAg.getCoordinates()));
             child.setAge(0);
             child.updateSpeed();
@@ -650,27 +647,27 @@ public class Aviary {
             else areaData[2][j] = 0;
         }
 
-        double intersectionX = (double)configuration.Render.DEFX / 2;
-        double intersectionY = (double)configuration.Render.DEFY / 2;
+        double intersectionX = (double)configuration.Aviary.DEFX / 2;
+        double intersectionY = (double)configuration.Aviary.DEFY / 2;
 
         switch (this.shiftIntersection) {
             case POPULATION -> {
                 //(double)App.DEFX / 10 + 0.8 *
                 if (areaData[0][0] + areaData[0][1] + areaData[0][2] + areaData[0][3] != 0) {
-                    intersectionX = (double)configuration.Render.DEFX * (areaData[0][0] + areaData[0][1]) / (areaData[0][0] + areaData[0][1] + areaData[0][2] + areaData[0][3]);
-                    intersectionY = (double)configuration.Render.DEFY * (areaData[0][0] + areaData[0][2]) / (areaData[0][0] + areaData[0][1] + areaData[0][2] + areaData[0][3]);
+                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[0][0] + areaData[0][1]) / (areaData[0][0] + areaData[0][1] + areaData[0][2] + areaData[0][3]);
+                    intersectionY = (double)configuration.Aviary.DEFY * (areaData[0][0] + areaData[0][2]) / (areaData[0][0] + areaData[0][1] + areaData[0][2] + areaData[0][3]);
                 }
             }
             case ENERGY -> {
                 if (areaData[1][0] + areaData[1][1] + areaData[1][2] + areaData[1][3] != 0) {
-                    intersectionX = (double)configuration.Render.DEFX * (areaData[1][0] + areaData[1][1]) / (areaData[1][0] + areaData[1][1] + areaData[1][2] + areaData[1][3]);
-                    intersectionY = (double)configuration.Render.DEFY * (areaData[1][0] + areaData[1][2]) / (areaData[1][0] + areaData[1][1] + areaData[1][2] + areaData[1][3]);
+                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[1][0] + areaData[1][1]) / (areaData[1][0] + areaData[1][1] + areaData[1][2] + areaData[1][3]);
+                    intersectionY = (double)configuration.Aviary.DEFY * (areaData[1][0] + areaData[1][2]) / (areaData[1][0] + areaData[1][1] + areaData[1][2] + areaData[1][3]);
                 }
             }
             case ENERGYDENSITY -> {
                 if (areaData[2][0] + areaData[2][1] + areaData[2][2] + areaData[2][3] != 0) {
-                    intersectionX = (double)configuration.Render.DEFX * (areaData[2][0] + areaData[2][1]) / (areaData[2][0] + areaData[2][1] + areaData[2][2] + areaData[2][3]);
-                    intersectionY = (double)configuration.Render.DEFY * (areaData[2][0] + areaData[2][2]) / (areaData[2][0] + areaData[2][1] + areaData[2][2] + areaData[2][3]);
+                    intersectionX = (double)configuration.Aviary.DEFX * (areaData[2][0] + areaData[2][1]) / (areaData[2][0] + areaData[2][1] + areaData[2][2] + areaData[2][3]);
+                    intersectionY = (double)configuration.Aviary.DEFY * (areaData[2][0] + areaData[2][2]) / (areaData[2][0] + areaData[2][1] + areaData[2][2] + areaData[2][3]);
                 }
             }
         }
@@ -692,7 +689,7 @@ public class Aviary {
         if(this.resType == configuration.Resource.RESOURCETYPES.DISCRETE) this.resGroup = Builder.buildResourceGroup();
         if(this.resType == configuration.Resource.RESOURCETYPES.PLAIN) this.resGrid = Builder.buildResourceGrid();
 
-        this.propertyGrid = new PropertyGrid<>(configuration.Render.DEFX, configuration.Render.DEFY);
+        this.propertyGrid = new PropertyGrid<>(configuration.Aviary.DEFX, configuration.Aviary.DEFY);
         this.propertyGrid.fillPropertyAreas(configuration.PropertyGrid.PROPERTY_AREA_VALUES, configuration.PropertyGrid.PROPERTY_AREA_COLORS);
 
         this.agents = Builder.buildAgentArray();
@@ -752,7 +749,7 @@ public class Aviary {
                 continue;
             }
 
-            if(!ag.wellFed() && ag.getConCount() != 0){
+            if(!ag.wellFed() && ag.getConnectionCount() != 0){
                 removeAgentFromPacks(ag);
             }
 
@@ -761,7 +758,7 @@ public class Aviary {
             scream(ag);
 
             updateProperty(ag);
-            ag.step();
+            ag.step(configuration.Aviary.TICKDELTATIME);
 
 
 
@@ -769,7 +766,7 @@ public class Aviary {
                 reproductList.add(ag);
             }
 
-            if(ag.getConCount() == 0){
+            if(ag.getConnectionCount() == 0){
                 ag.eatCollected();
             }
 
@@ -781,7 +778,7 @@ public class Aviary {
     void postProcedure() {
         packs.forEach((pack) -> {
             pack.collectedResDistribution();
-            pack.energyDepletion();
+            pack.energyDepletion(configuration.Aviary.TICKDELTATIME);
         });
 
         if (configuration.Agent.FIGHTS) fights();

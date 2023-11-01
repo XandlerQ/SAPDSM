@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Angle {
-    public static double directionAddition(double dir1, double dir2){
+    public static double directionAddition(double direction1, double direction2){
         double resDir = -1;
         double x1, y1, x2, y2;
-        x1 = Math.cos(dir1);
-        y1 = Math.sin(dir1);
-        x2 = Math.cos(dir2);
-        y2 = Math.sin(dir2);
+        x1 = Math.cos(direction1);
+        y1 = Math.sin(direction1);
+        x2 = Math.cos(direction2);
+        y2 = Math.sin(direction2);
 
         double xres, yres;
 
@@ -35,21 +35,21 @@ public class Angle {
         return resDir;
     }
 
-    public static double directionAddition(ArrayList<Double> dirs){
+    public static double directionAddition(ArrayList<Double> directions){
         double resDir = -1;
 
-        if(dirs.size() == 0)
+        if(directions.size() == 0)
             return resDir;
 
-        if(dirs.size() == 1){
-            resDir = dirs.get(0);
+        if(directions.size() == 1){
+            resDir = directions.get(0);
             return resDir;
         }
 
-        ArrayList<Double> xi = new ArrayList<>(dirs.size());
-        ArrayList<Double> yi = new ArrayList<>(dirs.size());
+        ArrayList<Double> xi = new ArrayList<>(directions.size());
+        ArrayList<Double> yi = new ArrayList<>(directions.size());
 
-        dirs.forEach((dir) -> {
+        directions.forEach((dir) -> {
             xi.add(Math.cos(dir));
             yi.add(Math.sin(dir));
         });
@@ -77,8 +77,8 @@ public class Angle {
         return resDir;
     }
 
-    public static double normalizeDirection(double argDir){
-        double dir = argDir;
+    public static double normalizeDirection(double direction){
+        double dir = direction;
         while(dir < 0){
             dir += 2 * Math.PI;
         }

@@ -14,27 +14,27 @@ public class Builder {
         Random r = new Random();
         if (!configuration.Aviary.REGIONSPECIFIC) {
             for (int i = 0; i < configuration.Aviary.INITAGENTAMOUNT1; i++) {
-                agents.add(buildAgent(0, 0, 0, configuration.Render.DEFX, configuration.Render.DEFY));
+                agents.add(buildAgent(0, 0, 0, configuration.Aviary.DEFX, configuration.Aviary.DEFY));
             }
 
             for (int i = 0; i < configuration.Aviary.INITAGENTAMOUNT2; i++) {
-                agents.add(buildAgent(1, 0, 0, configuration.Render.DEFX, configuration.Render.DEFY));
+                agents.add(buildAgent(1, 0, 0, configuration.Aviary.DEFX, configuration.Aviary.DEFY));
             }
         }
         else {
             int agentsPerRegion1 = configuration.Aviary.INITAGENTAMOUNT1 / 4;
             int agentsPerRegion2 = configuration.Aviary.INITAGENTAMOUNT2 / 4;
             for (int i = 0; i < agentsPerRegion1; i++) {
-                agents.add(buildAgent(0, 0, 0, configuration.Render.DEFX / 2., configuration.Render.DEFY / 2.));
+                agents.add(buildAgent(0, 0, 0, configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
             }
             for (int i = 0; i < agentsPerRegion1; i++) {
-                agents.add(buildAgent(0, 0, configuration.Render.DEFY / 2., configuration.Render.DEFX / 2., configuration.Render.DEFY / 2.));
+                agents.add(buildAgent(0, 0, configuration.Aviary.DEFY / 2., configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
             }
             for (int i = 0; i < agentsPerRegion1; i++) {
-                agents.add(buildAgent(0, configuration.Render.DEFX / 2., 0, configuration.Render.DEFX / 2., configuration.Render.DEFY / 2.));
+                agents.add(buildAgent(0, configuration.Aviary.DEFX / 2., 0, configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
             }
             for (int i = 0; i < agentsPerRegion1; i++) {
-                agents.add(buildAgent(0, configuration.Render.DEFX / 2., configuration.Render.DEFY / 2., configuration.Render.DEFX / 2., configuration.Render.DEFY / 2.));
+                agents.add(buildAgent(0, configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2., configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
             }
         }
 
@@ -68,32 +68,32 @@ public class Builder {
 
         ag.setAge(2 * configuration.Agent.BASEMAXAGE * r.nextDouble() / 3);
         ag.setMaxAge(4 * configuration.Agent.BASEMAXAGE / 5 + 2 * configuration.Agent.BASEMAXAGE * r.nextDouble() / 5);
-        ag.setAgeIncr(configuration.Agent.AGEPERSTEP);
+        ag.setAgingSpeed(configuration.Agent.AGEPERSTEP);
 
         ag.setMaxEnergy(configuration.Agent.MAXENERGY);
         ag.setEnergy(configuration.Agent.SUFFENERGY + configuration.Agent.SUFFENERGY / 1.2);
-        ag.setSuffEnergy(configuration.Agent.SUFFENERGY);
+        ag.setSufficientEnergy(configuration.Agent.SUFFENERGY);
 
-        if (species == 0) ag.setEnergyDecr(configuration.Agent.NRGPERSTEP1);
-        else ag.setEnergyDecr(configuration.Agent.NRGPERSTEP2);
+        if (species == 0) ag.setEnergyDrainSpeed(configuration.Agent.NRGPERSTEP1);
+        else ag.setEnergyDrainSpeed(configuration.Agent.NRGPERSTEP2);
 
         if (species == 0) ag.setValence(configuration.Agent.VALENCE1);
         else ag.setValence(configuration.Agent.VALENCE2);
 
-        ag.setActCtrPeak(configuration.Agent.ACTCTRPEAK);
+        ag.setActionCooldown(configuration.Agent.ACTCTRPEAK);
 
         return ag;
     }
 
     public static ResourceGroup buildResourceGroup() {
-        ResourceGroup resGroup = new ResourceGroup(configuration.Render.DEFX, configuration.Render.DEFY, configuration.Resource.QUADX, configuration.Resource.QUADY, configuration.Resource.RESPERQUAD);
+        ResourceGroup resGroup = new ResourceGroup(configuration.Aviary.DEFX, configuration.Aviary.DEFY, configuration.Resource.QUADX, configuration.Resource.QUADY, configuration.Resource.RESPERQUAD);
         resGroup.fillResNodes(configuration.Resource.BASERES, 0.5, configuration.Resource.RESREPSPEED, configuration.Resource.RESREPCTRPEAK);
 
         return resGroup;
     }
 
     public static ResourceGrid buildResourceGrid() {
-        ResourceGrid resGrid = new ResourceGrid(configuration.Render.DEFX, configuration.Render.DEFY, configuration.Resource.PLAINX, configuration.Resource.PLAINY);
+        ResourceGrid resGrid = new ResourceGrid(configuration.Aviary.DEFX, configuration.Aviary.DEFY, configuration.Resource.PLAINX, configuration.Resource.PLAINY);
         resGrid.fillResources(configuration.Resource.BASERES, 0.5, configuration.Resource.RESREPSPEED, configuration.Resource.RESREPCTRPEAK);
 
         return resGrid;

@@ -2,7 +2,7 @@ package app;
 
 import aviary.Aviary;
 
-import controlP5.ControlP5;
+import controlP5.*;
 import processing.core.*;
 
 import java.awt.*;
@@ -46,16 +46,16 @@ public class App extends PApplet {
 
         cp5.addBang("BgStart")
                 //.setLabel("Старт")
-                .setPosition(65, configuration.Render.ORIGINY + configuration.Render.DEFY + 20)
+                .setPosition(65, configuration.Render.ORIGINY + configuration.Aviary.DEFY + 20)
                 .setSize(45, 30);
 
         cp5.addBang("BgPause")
                 //.setLabel("Пауза")
-                .setPosition(65, configuration.Render.ORIGINY + configuration.Render.DEFY + 70)
+                .setPosition(65, configuration.Render.ORIGINY + configuration.Aviary.DEFY + 70)
                 .setSize(45, 30);
 
         cp5.addBang("BgScreenshot")
-                .setPosition(65, configuration.Render.ORIGINY + configuration.Render.DEFY + 120)
+                .setPosition(65, configuration.Render.ORIGINY + configuration.Aviary.DEFY + 120)
                 .setSize(45, 30);
 
         PFont font = createFont("PressStart2P-Regular.ttf", 8);
@@ -72,10 +72,10 @@ public class App extends PApplet {
         if (pause) {
             fill(0, 100);
             stroke(0, 0);
-            rect(configuration.Render.ORIGINX, configuration.Render.ORIGINY, configuration.Render.DEFX, configuration.Render.DEFY);
+            rect(configuration.Render.ORIGINX, configuration.Render.ORIGINY, configuration.Aviary.DEFX, configuration.Aviary.DEFY);
             fill(Color.WHITE.getRGB());
             textSize(20);
-            text("PAUSE", configuration.Render.DEFX / 2 - 40, configuration.Render.DEFY / 2);
+            text("PAUSE", configuration.Aviary.DEFX / 2 - 40, configuration.Aviary.DEFY / 2);
         }
     }
 
@@ -87,7 +87,7 @@ public class App extends PApplet {
             if (!firstRun) {
                 fill(0, 80);
                 stroke(0, 0);
-                rect(configuration.Render.ORIGINX, configuration.Render.ORIGINY, configuration.Render.DEFX, configuration.Render.DEFY);
+                rect(configuration.Render.ORIGINX, configuration.Render.ORIGINY, configuration.Aviary.DEFX, configuration.Aviary.DEFY);
                 fill(Color.WHITE.getRGB(), 100);
                 rect(configuration.Render.ORIGINX + 5, configuration.Render.ORIGINY + 5, 12, 30);
                 rect(configuration.Render.ORIGINX + 25, configuration.Render.ORIGINY + 5, 12, 30);
@@ -144,9 +144,9 @@ public class App extends PApplet {
             scrShCounter--;
             fill(Color.WHITE.getRGB(), 100);
             stroke(Color.WHITE.getRGB(), 255);
-            rect(1200 - 47 + 5, configuration.Render.ORIGINY + configuration.Render.DEFY + 170, 2, 15);
-            triangle(1200 - 50 + 5, configuration.Render.ORIGINY + configuration.Render.DEFY + 185, 1200 - 42 + 5, configuration.Render.ORIGINY + configuration.Render.DEFY + 185, 1200 - 46 + 5, configuration.Render.ORIGINY + configuration.Render.DEFY + 195);
-            rect(1200 - 55 + 5, configuration.Render.ORIGINY + configuration.Render.DEFY + 195, 20, 2);
+            rect(1200 - 47 + 5, configuration.Render.ORIGINY + configuration.Aviary.DEFY + 170, 2, 15);
+            triangle(1200 - 50 + 5, configuration.Render.ORIGINY + configuration.Aviary.DEFY + 185, 1200 - 42 + 5, configuration.Render.ORIGINY + configuration.Aviary.DEFY + 185, 1200 - 46 + 5, configuration.Render.ORIGINY + configuration.Aviary.DEFY + 195);
+            rect(1200 - 55 + 5, configuration.Render.ORIGINY + configuration.Aviary.DEFY + 195, 20, 2);
         }
 
         popMatrix();
@@ -163,7 +163,7 @@ public class App extends PApplet {
                 if (pause) {
                     fill(0, 80);
                     stroke(0, 0);
-                    rect(configuration.Render.ORIGINX, configuration.Render.ORIGINY, configuration.Render.DEFX, configuration.Render.DEFY);
+                    rect(configuration.Render.ORIGINX, configuration.Render.ORIGINY, configuration.Aviary.DEFX, configuration.Aviary.DEFY);
                     fill(Color.WHITE.getRGB(), 100);
                     rect(configuration.Render.ORIGINX + 5, configuration.Render.ORIGINY + 5, 12, 30);
                     rect(configuration.Render.ORIGINX + 25, configuration.Render.ORIGINY + 5, 12, 30);
@@ -176,7 +176,7 @@ public class App extends PApplet {
                     if (!firstRun) {
                         fill(0, 80);
                         stroke(0, 0);
-                        rect(configuration.Render.ORIGINX, configuration.Render.ORIGINY, configuration.Render.DEFX, configuration.Render.DEFY);
+                        rect(configuration.Render.ORIGINX, configuration.Render.ORIGINY, configuration.Aviary.DEFX, configuration.Aviary.DEFY);
                         fill(Color.WHITE.getRGB(), 100);
                         rect(configuration.Render.ORIGINX + 5, configuration.Render.ORIGINY + 5, 12, 30);
                         rect(configuration.Render.ORIGINX + 25, configuration.Render.ORIGINY + 5, 12, 30);

@@ -1,6 +1,16 @@
 package configuration;
 
+import java.awt.*;
+
 public class Agent {
+
+    public static Color SPECIESCOLORS[] = {
+            new Color(255, 0,0),
+            new Color(45, 255, 0),
+            new Color(252, 223, 3),
+            new Color(3, 252, 240)
+    };
+
     public static double WALLTHICKNESS = 1;
     public static double BASESPEED1 = 1.6;
     public static double BASESPEED2 = 1.6;
@@ -17,7 +27,7 @@ public class Agent {
     public static int VALENCE1 = 3;
     public static int VALENCE2 = 4;
 
-    public static double RESECOLLECTEDPERSTEP = 1.0;
+    public static double RESOURCECOLLECTIONSPEED = 1.0;
 
     //  Reproduction settings
     public static double REPRODUCTLOW = 1440;
@@ -28,10 +38,10 @@ public class Agent {
 
     //  Fight settings
     public static boolean FIGHTS = false;
-    public static double NRGPERFIGHT = 1.0;
+    public static double FIGHTENERGYDRAINSPEED = 1.0;
 
     //  Pack energy depletion settings
-    public static double NRGFORCONPERSTEP = 0.5 * NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0];
+    public static double CONNECTIONENERGYDEPLETIONSPEED = 0.5 * NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0];
 
     //  Action counter
     public static int ACTCTRPEAK = 30;

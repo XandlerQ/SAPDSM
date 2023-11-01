@@ -222,7 +222,7 @@ public class ResourceGrid {
             }
         }
 
-        agent.setSeenRes(resLeft + resRight + resTop + resBottom);
+        agent.setSeenResource(resLeft + resRight + resTop + resBottom);
 
         double shiftX = resRight - resLeft;
         double shiftY = resBottom - resTop;
@@ -293,7 +293,7 @@ public class ResourceGrid {
             }
         }
 
-        agent.setSeenRes(resLeft + resRight + resTop + resBottom);
+        agent.setSeenResource(resLeft + resRight + resTop + resBottom);
 
         double shiftX = resRight - resLeft;
         double shiftY = resBottom - resTop;
