@@ -1,12 +1,12 @@
 package agent;
 
-import point.Point2D;
-import resource.ResourceNode;
-import area.PropertyArea;
-
 import java.awt.*;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import point.Point2D;
+import resource.ResourceNode;
+import area.PropertyArea;
 
 public class Agent {
 
@@ -133,7 +133,7 @@ public class Agent {
     public int getActCounter() { return this.actionTimer; }
     public int getActCounterPeak() { return this.actionCooldown; }
 
-    public boolean readyToAct() { return this.actionTimer == 0; }
+    public boolean readyToAct() { return this.actionTimer <= 0; }
 
     public boolean stationary() { return this.stationary; }
 
@@ -230,13 +230,13 @@ public class Agent {
         }
     }
 
-    public void addToEnergy(double nrg) {
-        this.energy += nrg;
+    public void addToEnergy(double energy) {
+        this.energy += energy;
         normalizeEnergy();
     }
 
-    public void eat(double res) {
-        this.energy += res;
+    public void eat(double resource) {
+        this.energy += resource;
         normalizeEnergy();
     }
 
@@ -297,37 +297,52 @@ public class Agent {
 
     public void step(double deltaTime) {
 
+        // Update agent age
         this.age += this.agingSpeed * deltaTime;
+
+        // Recalculate agent speed depending on their age
         updateSpeed();
 
+        // Drain energy according to current agent speed
         this.energy -= this.energyDrainSpeed * deltaTime * ((this.speed * this.speed) / (this.baseSpeed * this.baseSpeed));
 
+        // Update action timer. If action timer is zero or lower than readyToAct() method returns true.
+        // Following code ensures that action timer is xero or lower for 1 program tick,
+        // Same goes for readyToAct() method returning true for a single program tick
         if(this.actionTimer > 0) this.actionTimer -= deltaTime;
         else resetActionTimer();
 
+        // If agent is set as stationary, then no need to calculate new position
         if(stationary) return;
 
         Random r = new Random();
 
+        // Randomize direction of movement
         this.direction += -0.16 + (0.32) * r.nextDouble();
         normalizeDirection();
 
+        // Calculate new coordinates using speed and direction values (in accordance with deltaTime)
         double newX = this.coordinates.getX() + this.speed * deltaTime * Math.cos(this.direction);
         double newY = this.coordinates.getY() + this.speed * deltaTime * Math.sin(this.direction);
 
+        // If PropertyGrid is used and LOCKEDAREAS configuration variable is set to true
         if(configuration.PropertyGrid.LOCKEDAREAS && this.propertyArea != null) {
 
+            // Get property area border coordinates
             double prAreaOriginX = this.propertyArea.getOriginX();
             double prAreaOriginY = this.propertyArea.getOriginY();
             double prAreaSideX = this.propertyArea.getSideX();
             double prAreaSideY = this.propertyArea.getSideY();
 
+            // If new calculated coordinates are NOT within PropertyArea
             if (newX > prAreaOriginX + prAreaSideX - configuration.Agent.WALLTHICKNESS ||
                     newX < prAreaOriginX + configuration.Agent.WALLTHICKNESS ||
                     newY > prAreaOriginY + prAreaSideY - configuration.Agent.WALLTHICKNESS ||
                     newY < prAreaOriginY + configuration.Agent.WALLTHICKNESS) {
+                // Set direction to the centre of current property area
                 direction = angle.Angle.directionFromTo(this.coordinates, this.propertyArea.getAreaCenter());
                 normalizeDirection();
+                // Calculate corresponding new coordinates
                 newX = this.coordinates.getX() + this.speed * deltaTime * Math.cos(this.direction);
                 newY = this.coordinates.getY() + this.speed * deltaTime * Math.sin(this.direction);
             }
@@ -335,21 +350,25 @@ public class Agent {
                     newX < configuration.Agent.WALLTHICKNESS ||
                     newY > configuration.Aviary.DEFY - configuration.Agent.WALLTHICKNESS ||
                     newY < configuration.Agent.WALLTHICKNESS) {
+                System.out.println("NowhereToGo");
                 return;
             }
         }
-        else {
+        else { // If PropertyGrid is not used
+            // If new calculated coordinates are NOT within Aviary borders
             if (newX > configuration.Aviary.DEFX - configuration.Agent.WALLTHICKNESS ||
                     newX < configuration.Agent.WALLTHICKNESS ||
                     newY > configuration.Aviary.DEFY - configuration.Agent.WALLTHICKNESS ||
                     newY < configuration.Agent.WALLTHICKNESS) {
+                // Set direction to the centre of Aviary
                 direction = angle.Angle.directionFromTo(this.coordinates, new Point2D(configuration.Aviary.DEFX / 2., configuration.Aviary.DEFY / 2.));
                 normalizeDirection();
+                // Calculate corresponding new coordinates
                 newX = this.coordinates.getX() + this.speed * deltaTime * Math.cos(this.direction);
                 newY = this.coordinates.getY() + this.speed * deltaTime * Math.sin(this.direction);
             }
         }
-
+        // Set new coordinates
         this.setCoordinates(newX, newY);
     }
 
