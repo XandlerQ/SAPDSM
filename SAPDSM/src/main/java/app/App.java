@@ -21,7 +21,7 @@ public class App extends PApplet {
     boolean firstRun = true;
     boolean autoRun = true;
     int runNumber = 1;
-    int runsPerParameters = 5;
+    int runsPerParameters = 2;
 
     int screenshotNum = 1;
     int scrShCounter = 0;
@@ -127,7 +127,7 @@ public class App extends PApplet {
         if (finished) {
             if (autoRun) {
                 this.runNumber += 1;
-                if (this.runNumber > 5) {
+                if (this.runNumber > this.runsPerParameters) {
                     Resource.BASERES += 0.1;
                     Resource.RESREPSPEED = Resource.BASERES / Resource.RESREPSPEEDMULTIPLIER;
                     if (Resource.BASERES > 1.001) {
