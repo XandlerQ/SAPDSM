@@ -246,7 +246,7 @@ public class Aviary {
         if(pack == null) return;
         double packHunger = pack.getMedHunger();
         int conCount = agent.getConnectionCount();
-        int extent = (int)(((double)conCount / configuration.PropertyGrid.PROPERTY_AREA_VALUES[0]) * configuration.Agent.GRADIENTREFINEMENT);
+        int extent = (int)Math.ceil(((double)conCount / configuration.PropertyGrid.PROPERTY_AREA_VALUES[0]) * configuration.Agent.GRADIENTREFINEMENT);
         double resourceWithdrawn = this.resGrid.resourceWithdraw(agent.getCoordinates(), this.propertyGrid2.getIntersection(), Math.min(packHunger, configuration.Aviary.TICKDELTATIME * configuration.Agent.RESOURCECOLLECTIONSPEED), extent);
         agent.collect(resourceWithdrawn);
     }
@@ -701,22 +701,16 @@ public class Aviary {
 
             reportDataHeaders.add("Population area 0");
             reportDataHeaders.add("Population area 1");
-            reportDataHeaders.add("Population area 2");
-            reportDataHeaders.add("Population area 3");
+
 
             reportDataHeaders.add("Energy density area 0");
             reportDataHeaders.add("Energy density area 1");
-            reportDataHeaders.add("Energy density area 2");
-            reportDataHeaders.add("Energy density area 3");
 
             reportDataHeaders.add("Pack count area 0");
             reportDataHeaders.add("Pack count area 1");
-            reportDataHeaders.add("Pack count area 2");
 
             reportDataHeaders.add("Resource area 0");
             reportDataHeaders.add("Resource area 1");
-            reportDataHeaders.add("Resource area 2");
-            reportDataHeaders.add("Resource area 3");
 
             this.observer.setReportDataHeaders(reportDataHeaders);
             this.observer.writeDataHeaders();

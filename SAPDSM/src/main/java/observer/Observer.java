@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import aviary.Aviary;
+import configuration.Agent;
 import graph.*;
 
 public class Observer {
@@ -317,6 +318,10 @@ public class Observer {
         }
     }
 
+    public String formRunFolderName() {
+        return String.valueOf(Agent.CONNECTIONENERGYDEPLETIONSPEED);
+    }
+
     public String formTimeStampDataFileName(){
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy_MM_dd__HH_mm_ss");
         Date currentTimeStamp = new Date();
@@ -410,7 +415,7 @@ public class Observer {
                         "======================================================\n\n" +
                         formParameterReportString();
 
-        File parameterReportFile = new File("reports\\" + this.parameterReportFileName + ".txt");
+        File parameterReportFile = new File("reports\\" + formRunFolderName() + "\\" + this.parameterReportFileName + ".txt");
 
         if (!parameterReportFile.exists()) {
             try {
@@ -438,7 +443,7 @@ public class Observer {
     }
 
     public void writeDataHeaders() {
-        this.reportFile = new File("reports\\" + this.dataReportFileName + ".csv");
+        this.reportFile = new File("reports\\" + formRunFolderName() + "\\" + this.dataReportFileName + ".csv");
 
         if (!this.reportFile.exists()) {
             try {
@@ -487,19 +492,12 @@ public class Observer {
             stringBuilder.append(aviaryReference.getPopulation()).append(", ");
             stringBuilder.append(aviaryData[0][0]).append(", ");
             stringBuilder.append(aviaryData[0][1]).append(", ");
-            stringBuilder.append(aviaryData[0][2]).append(", ");
-            stringBuilder.append(aviaryData[0][3]).append(", ");
             stringBuilder.append(aviaryData[1][0] / aviaryData[0][0]).append(", ");
             stringBuilder.append(aviaryData[1][1] / aviaryData[0][1]).append(", ");
-            stringBuilder.append(aviaryData[1][2] / aviaryData[0][2]).append(", ");
-            stringBuilder.append(aviaryData[1][3] / aviaryData[0][3]).append(", ");
             stringBuilder.append(aviaryData[2][0]).append(", ");
             stringBuilder.append(aviaryData[2][1]).append(", ");
-            stringBuilder.append(aviaryData[2][2]).append(", ");
             stringBuilder.append(aviaryData[3][0]).append(", ");
             stringBuilder.append(aviaryData[3][1]).append(", ");
-            stringBuilder.append(aviaryData[3][2]).append(", ");
-            stringBuilder.append(aviaryData[3][3]).append("\n");
 
             reportString = stringBuilder.toString();
 
@@ -515,7 +513,7 @@ public class Observer {
                 this.fw.close();
             }
             catch (IOException e) {
-                System.out.println(e.toString());
+                System.out.println(e);
             }
 
             resetReportCtr();
@@ -531,9 +529,8 @@ public class Observer {
         stringBuilder.append("Base resource ").append(configuration.Resource.BASERES).append("  ");
         stringBuilder.append("Resource replenishment speed multiplier ").append(configuration.Resource.RESREPSPEEDMULTIPLIER).append("\n");
         stringBuilder.append(aviaryData[0][0]).append(", ");
-        stringBuilder.append(aviaryData[0][1]).append(", ");
-        stringBuilder.append(aviaryData[0][2]).append(", ");
-        stringBuilder.append(aviaryData[0][3]).append("\n\n\n");
+        stringBuilder.append(aviaryData[0][1]).append("\n\n\n");
+
 
         finalReportString = stringBuilder.toString();
         return finalReportString;
@@ -543,7 +540,7 @@ public class Observer {
         observeAviaryData();
         String finalReportString = formFinalReportString();
 
-        File finalReportFile = new File("reports\\" + "FinalReports.txt");
+        File finalReportFile = new File("reports\\" + formRunFolderName() + "\\" + "FinalReports.txt");
 
         if (!finalReportFile.exists()) {
             try {

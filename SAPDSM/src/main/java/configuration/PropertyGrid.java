@@ -15,7 +15,7 @@ public class PropertyGrid {
     };
 
     public static Integer[] PROPERTY_AREA_VALUES = {
-            6, 4, 2, 0
+            6, 2, 2, 0
     };
 
     public static boolean LOCKEDAREAS = true; ///////////////////////////////////////////////////////////////////

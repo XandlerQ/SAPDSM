@@ -2,6 +2,9 @@ package app;
 
 import aviary.Aviary;
 
+import configuration.Agent;
+import configuration.PropertyGrid;
+import configuration.Resource;
 import controlP5.*;
 import processing.core.*;
 
@@ -17,6 +20,8 @@ public class App extends PApplet {
     boolean pause = false;
     boolean firstRun = true;
     boolean autoRun = true;
+    int runNumber = 1;
+    int runsPerParameters = 5;
 
     int screenshotNum = 1;
     int scrShCounter = 0;
@@ -117,24 +122,33 @@ public class App extends PApplet {
             }
         }
 
+        boolean lastRun = false;
+
         if (finished) {
             if (autoRun) {
-//                App.BASERES += 0.05;
-//                App.RESREPSPEED = App.BASERES / App.RESREPSPEEDMULTIPLIER;
-//                if (App.BASERES > 1.001) {
-//                    App.BASERES = 0.1;
-//                    App.RESREPSPEEDMULTIPLIER += 30;
-//                    App.RESREPSPEED = App.BASERES / App.RESREPSPEEDMULTIPLIER;
-//                    if (App.RESREPSPEEDMULTIPLIER > 241) {
-//                        BgPause();
-//                    }
-//                    else {
-//                        BgStart();
-//                    }
-//                }
-//                else {
-//                    BgStart();
-//                }
+                this.runNumber += 1;
+                if (this.runNumber > 5) {
+                    Resource.BASERES += 0.1;
+                    Resource.RESREPSPEED = Resource.BASERES / Resource.RESREPSPEEDMULTIPLIER;
+                    if (Resource.BASERES > 1.001) {
+                        Resource.BASERES = 0.1;
+                        Resource.RESREPSPEEDMULTIPLIER -= 30.;
+                        Resource.RESREPSPEED = Resource.BASERES / Resource.RESREPSPEEDMULTIPLIER;
+                        if (Resource.RESREPSPEEDMULTIPLIER < 0) {
+                            Resource.RESREPSPEEDMULTIPLIER = 350.;
+                            if (Agent.CONNECTIONENERGYDEPLETIONSPEED == 0) lastRun = true;
+                            else {
+                                Agent.CONNECTIONENERGYDEPLETIONSPEED /= 2;
+                                if (Agent.CONNECTIONENERGYDEPLETIONSPEED < 0.47 * Agent.NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0]) {
+                                    Agent.CONNECTIONENERGYDEPLETIONSPEED = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!lastRun) BgStart();
+                else BgPause();
             } else {
                 BgPause();
             }

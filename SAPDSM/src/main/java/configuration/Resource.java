@@ -17,7 +17,7 @@ public class Resource {
     public static RESOURCETYPES RESTYPE = RESOURCETYPES.PLAIN;
 
     public static double BASERES = 0.1;
-    public static double RESREPSPEEDMULTIPLIER = 60.;
+    public static double RESREPSPEEDMULTIPLIER = 350.;
     public static double RESREPSPEED = BASERES / RESREPSPEEDMULTIPLIER;
     public static int RESPERQUAD = 4;
     public static int RESREPCTRPEAK = 0;
