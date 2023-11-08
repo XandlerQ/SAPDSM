@@ -319,7 +319,7 @@ public class Observer {
     }
 
     public String formRunFolderName() {
-        return String.valueOf(Agent.CONNECTIONENERGYDEPLETIONSPEED);
+        return String.valueOf(configuration.Observer.folderNum);
     }
 
     public String formTimeStampDataFileName(){

@@ -11,13 +11,13 @@ public class Resource {
     public static int QUADX = 5;
     public static int QUADY = 5;
 
-    public static int PLAINX = 80;
-    public static int PLAINY = 80;
+    public static int PLAINX = 50;
+    public static int PLAINY = 50;
 
     public static RESOURCETYPES RESTYPE = RESOURCETYPES.PLAIN;
 
     public static double BASERES = 0.1;
-    public static double RESREPSPEEDMULTIPLIER = 350.;
+    public static double RESREPSPEEDMULTIPLIER = 220.;
     public static double RESREPSPEED = BASERES / RESREPSPEEDMULTIPLIER;
     public static int RESPERQUAD = 4;
     public static int RESREPCTRPEAK = 0;

@@ -1,9 +1,9 @@
 package configuration;
 
 public class Aviary {
-    public static int DEFX = 1000;
-    public static int DEFY = 1000;
-    public static int INITAGENTAMOUNT1 = 200;
+    public static int DEFX = 500;
+    public static int DEFY = 500;
+    public static int INITAGENTAMOUNT1 = 40;
     public static int INITAGENTAMOUNT2 = 0;
 
     public static boolean SYSSPAWN = false;

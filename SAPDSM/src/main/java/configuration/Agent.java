@@ -41,7 +41,7 @@ public class Agent {
     public static double FIGHTENERGYDRAINSPEED = 1.0;
 
     //  Pack energy depletion settings
-    public static double CONNECTIONENERGYDEPLETIONSPEED = 1.0 * NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0];
+    public static double CONNECTIONENERGYDEPLETIONSPEED = 0.0 * NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0];
 
     //  Action counter
     public static int ACTCTRPEAK = 30;

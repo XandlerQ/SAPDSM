@@ -21,7 +21,7 @@ public class App extends PApplet {
     boolean firstRun = true;
     boolean autoRun = true;
     int runNumber = 1;
-    int runsPerParameters = 2;
+    int runsPerParameters = 5;
 
     int screenshotNum = 1;
     int scrShCounter = 0;
@@ -130,19 +130,14 @@ public class App extends PApplet {
                 if (this.runNumber > this.runsPerParameters) {
                     Resource.BASERES += 0.1;
                     Resource.RESREPSPEED = Resource.BASERES / Resource.RESREPSPEEDMULTIPLIER;
-                    if (Resource.BASERES > 1.001) {
+                    if (Resource.BASERES > 1.01) {
                         Resource.BASERES = 0.1;
                         Resource.RESREPSPEEDMULTIPLIER -= 30.;
                         Resource.RESREPSPEED = Resource.BASERES / Resource.RESREPSPEEDMULTIPLIER;
-                        if (Resource.RESREPSPEEDMULTIPLIER < 0) {
-                            Resource.RESREPSPEEDMULTIPLIER = 350.;
-                            if (Agent.CONNECTIONENERGYDEPLETIONSPEED == 0) lastRun = true;
-                            else {
-                                Agent.CONNECTIONENERGYDEPLETIONSPEED /= 2;
-                                if (Agent.CONNECTIONENERGYDEPLETIONSPEED < 0.47 * Agent.NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0]) {
-                                    Agent.CONNECTIONENERGYDEPLETIONSPEED = 0;
-                                }
-                            }
+                        if (Resource.RESREPSPEEDMULTIPLIER < 9.) {
+                            Resource.RESREPSPEEDMULTIPLIER = 220.;
+                            Agent.CONNECTIONENERGYDEPLETIONSPEED += 0.2 * Agent.NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0];
+                            if (Agent.CONNECTIONENERGYDEPLETIONSPEED > 1.01 * Agent.NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0]) lastRun = true;
                         }
                     }
                 }
