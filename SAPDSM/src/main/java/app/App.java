@@ -3,6 +3,7 @@ package app;
 import aviary.Aviary;
 
 import configuration.Agent;
+import configuration.Observer;
 import configuration.PropertyGrid;
 import configuration.Resource;
 import controlP5.*;
@@ -128,6 +129,7 @@ public class App extends PApplet {
             if (autoRun) {
                 this.runNumber += 1;
                 if (this.runNumber > this.runsPerParameters) {
+                    this.runNumber = 1;
                     Resource.BASERES += 0.1;
                     Resource.RESREPSPEED = Resource.BASERES / Resource.RESREPSPEEDMULTIPLIER;
                     if (Resource.BASERES > 1.01) {
@@ -135,9 +137,10 @@ public class App extends PApplet {
                         Resource.RESREPSPEEDMULTIPLIER -= 30.;
                         Resource.RESREPSPEED = Resource.BASERES / Resource.RESREPSPEEDMULTIPLIER;
                         if (Resource.RESREPSPEEDMULTIPLIER < 9.) {
+                            Observer.folderNum += 1;
                             Resource.RESREPSPEEDMULTIPLIER = 220.;
                             Agent.CONNECTIONENERGYDEPLETIONSPEED += 0.2 * Agent.NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0];
-                            if (Agent.CONNECTIONENERGYDEPLETIONSPEED > 1.01 * Agent.NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0]) lastRun = true;
+                            if (Agent.CONNECTIONENERGYDEPLETIONSPEED > 0.81 * Agent.NRGPERSTEP1 / PropertyGrid.PROPERTY_AREA_VALUES[0]) lastRun = true;
                         }
                     }
                 }

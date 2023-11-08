@@ -246,7 +246,7 @@ public class Aviary {
         if(pack == null) return;
         double packHunger = pack.getMedHunger();
         int conCount = agent.getConnectionCount();
-        int extent = (int)Math.ceil(((double)conCount / configuration.PropertyGrid.PROPERTY_AREA_VALUES[0]) * configuration.Agent.GRADIENTREFINEMENT);
+        int extent = (int)Math.floor(((double)conCount / configuration.PropertyGrid.PROPERTY_AREA_VALUES[0]) * configuration.Agent.GRADIENTREFINEMENT);
         double resourceWithdrawn = this.resGrid.resourceWithdraw(agent.getCoordinates(), this.propertyGrid2.getIntersection(), Math.min(packHunger, configuration.Aviary.TICKDELTATIME * configuration.Agent.RESOURCECOLLECTIONSPEED), extent);
         agent.collect(resourceWithdrawn);
     }
@@ -844,7 +844,7 @@ public class Aviary {
             renderPacks();
             renderAgent();
         }
-        renderObserver();
+        //renderObserver();
     }
 
     //-----------------------------------

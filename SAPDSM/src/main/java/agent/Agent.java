@@ -350,7 +350,6 @@ public class Agent {
                     newX < configuration.Agent.WALLTHICKNESS ||
                     newY > configuration.Aviary.DEFY - configuration.Agent.WALLTHICKNESS ||
                     newY < configuration.Agent.WALLTHICKNESS) {
-                System.out.println("NowhereToGo");
                 return;
             }
         }
