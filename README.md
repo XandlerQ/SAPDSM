@@ -31,3 +31,7 @@ Simulation experiments reveal:
 Population, competition, agent-based model, flock structure, valence, resource redistribution.
 
 ![image](https://github.com/user-attachments/assets/88aa6ca2-b04d-4a34-b810-2ee62e04d24d)
+
+### UML Scheme
+
+![image](https://github.com/user-attachments/assets/c09f9091-6475-4710-b37c-b68af6e7cf57)
