@@ -30,6 +30,4 @@ Simulation experiments reveal:
 
 Population, competition, agent-based model, flock structure, valence, resource redistribution.
 
-## Screenshot
-
 ![image](https://github.com/user-attachments/assets/88aa6ca2-b04d-4a34-b810-2ee62e04d24d)
